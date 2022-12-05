@@ -16,6 +16,36 @@ create table if not exists release
     music_label         varchar(128) null,
     constraint pk_release primary key (release_id)
 );
+comment on table release is
+    'Таблица релизов';
+comment on column release.release_id is
+    'Ид релиза';
+comment on column release.band_name is
+    'Название группы';
+comment on column release.work_description is
+    'Пожелания по звуку, описание работы';
+comment on column release.album_cover_link is
+    'Ссылка на обложку релиза';
+comment on column release.social_network_link is
+    'Ссылка на релиз';
+comment on column release.count_of_track is
+    'Количество треков';
+comment on column release.hours_of_work is
+    'Количество часов работы';
+comment on column release.release_length is
+    'Длительность релиза';
+comment on column release.start_of_work is
+    'Дата старта работы над релизом';
+comment on column release.end_of_work is
+    'Дата когда нужно сдать работу';
+comment on column release.release_dttm is
+    'Дата релиза';
+comment on column release.release_status is
+    'Статус работы над релизом';
+comment on column release.multitrack_link is
+    'Ссылка на исходники';
+comment on column release.music_label is
+    'Лейбл на котором издается релиз';
 
 create table if not exists price
 (
@@ -31,6 +61,26 @@ create table if not exists price
     release_id          bigint  not null,
     constraint pk_price primary key (price_id)
 );
+comment on table price is
+    'Таблица расчета цены за работу';
+comment on column price.price_id is
+    'Ид цены';
+comment on column price.mixing is
+    'Цена сведения';
+comment on column price.mastering is
+    'Цена мастеринга';
+comment on column price.editing_drums is
+    'Цена редактирования барабанов';
+comment on column price.editing_vocals is
+    'Цена редактирования вокалов';
+comment on column price.editing_other_instr is
+    'Цена редактирования инстумента';
+comment on column price.producing is
+    'Цена продюсирования';
+comment on column price.discount is
+    'Скидка в процентах';
+comment on column price.total_amount is
+    'Общая стоимость';
 
 alter table price
     add constraint fk_price_for_release foreign key (release_id)
@@ -47,6 +97,19 @@ create table if not exists drums
     release_id  bigint       not null,
     constraint pk_drums primary key (drums_id)
 );
+comment on table drums is
+    'Таблица информации о барабанах';
+comment on column drums.drums_id is
+    'Ид барабанов';
+comment on column drums.drums_type is
+    'Тип барабанов живые\семплы';
+comment on column drums.drums_model is
+    'Кит используемый на релизе';
+comment on column drums.drums_mics is
+    'Микрофоны поканально';
+comment on column drums.drums_img is
+    'Фото или скрин барабанов\пресета';
+
 alter table drums
     add constraint fk_drums_for_release foreign key (release_id)
         references release (release_id)
@@ -62,6 +125,19 @@ create table if not exists guitar
     release_id     bigint       not null,
     constraint pk_guitar primary key (guitar_id)
 );
+comment on table guitar is
+    'Табица гитар';
+comment on column guitar.guitar_id is
+    'Ид гитары';
+comment on column guitar.guitar_type is
+    'Тип гитары электро\акустика и тд';
+comment on column guitar.guitar_model is
+    'Модель гитары';
+comment on column guitar.tone_stack is
+    'Цепочка эффектов';
+comment on column guitar.tone_stack_img is
+    'Фото или скрин цепочки эффектов';
+
 alter table guitar
     add constraint fk_guitar_for_release foreign key (release_id)
         references release (release_id)
@@ -76,6 +152,17 @@ create table if not exists vocal
     release_id      bigint       not null,
     constraint pk_vocal primary key (vocal_id)
 );
+comment on table vocal is
+    'Таблица вокалов';
+comment on column vocal.vocal_id is
+    'Id вокалов';
+comment on column vocal.vocal_type is
+    'Типа вокала основной\бэк вокал и тд';
+comment on column vocal.vocal_technique is
+    'Техника исполнения';
+comment on column vocal.vocal_mic is
+    'Какой микрофон использовался на записи';
+
 alter table vocal
     add constraint fk_vocal_for_release foreign key (release_id)
         references release (release_id)
@@ -91,6 +178,16 @@ create table if not exists instrument
     release_id                bigint       not null,
     constraint pk_instrument primary key (instrument_id)
 );
+comment on table instrument is
+    'Таблица остальных инструментов';
+comment on column instrument.instrument_type is
+    'Тип инстурмента, например перкуссия или струнный';
+comment on column instrument.instrument_model is
+    'Модель инструмента';
+comment on column instrument.instrument_tone_stack is
+    'Цепочка эффектов инструмента';
+comment on column instrument.instrument_tone_stack_img is
+    'Скрин или фото цепочки эффектов инструмента';
 alter table instrument
     add constraint fk_instrument_for_release foreign key (release_id)
         references release (release_id)
@@ -104,6 +201,10 @@ create table if not exists genre
     release_id bigint       not null,
     constraint pk_genre primary key (genre_id)
 );
+comment on table genre is
+    'Таблица музыкальных жанров';
+comment on column genre.genre_name is
+    'Название жанра';
 alter table genre
     add constraint fk_genre_for_release foreign key (release_id)
         references release (release_id)
@@ -121,6 +222,14 @@ create table if not exists studio
     drums_id            bigint       null,
     constraint pk_studio primary key (studio_id)
 );
+comment on table studio is
+    'Таблица студии на которой записывался инструмент';
+comment on column studio.studio_name is
+    'Название студии';
+comment on column studio.studio_place is
+    'Местоположение студии';
+comment on column studio.social_network_link is
+    'Ссылка на студию';
 alter table studio
     add constraint fk_instrument_for_release foreign key (instrument_id)
         references instrument (instrument_id)
