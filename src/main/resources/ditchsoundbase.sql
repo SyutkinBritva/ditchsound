@@ -1,21 +1,22 @@
 create table if not exists release
 (
-    release_id          bigint       not null,
-    band_name           varchar(128) not null,
-    work_description    text         null,
-    album_cover_link    text         null,
-    social_network_link text         null,
-    count_of_track      bigint       not null,
-    hours_of_work       bigint       null,
-    release_length      numeric      null,
-    start_of_work       date         null,
-    end_of_work         date         null,
-    release_dttm        date         not null,
-    release_status      varchar(128) not null,
-    multitrack_link     text         null,
-    music_label         varchar(128) null,
+    release_id          bigint                   not null,
+    band_name           varchar(128)             not null,
+    work_description    text                     null,
+    album_cover_link    text                     null,
+    social_network_link text                     null,
+    count_of_track      bigint                   not null,
+    hours_of_work       bigint                   null,
+    release_length      numeric                  null,
+    start_of_work       timestamp with time zone null,
+    end_of_work         timestamp with time zone not null,
+    release_dttm        timestamp with time zone null,
+    release_status      varchar(128)             not null,
+    multitrack_link     text                     null,
+    music_label         varchar(128)             null,
     constraint pk_release primary key (release_id)
 );
+
 comment on table release is
     'Таблица релизов';
 comment on column release.release_id is
@@ -97,6 +98,7 @@ create table if not exists drums
     release_id  bigint       not null,
     constraint pk_drums primary key (drums_id)
 );
+
 comment on table drums is
     'Таблица информации о барабанах';
 comment on column drums.drums_id is
@@ -125,6 +127,7 @@ create table if not exists guitar
     release_id     bigint       not null,
     constraint pk_guitar primary key (guitar_id)
 );
+
 comment on table guitar is
     'Табица гитар';
 comment on column guitar.guitar_id is
@@ -152,6 +155,7 @@ create table if not exists vocal
     release_id      bigint       not null,
     constraint pk_vocal primary key (vocal_id)
 );
+
 comment on table vocal is
     'Таблица вокалов';
 comment on column vocal.vocal_id is
