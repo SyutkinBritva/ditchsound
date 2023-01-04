@@ -10,3 +10,6 @@
 6. liquibase добавить (https://youtu.be/JTdcd4DYgEI)
 7. Динамический поиск
 8. добавить новый скрипт с liquibase "add-releaseType-varchar" (епи-сингл-альбом будет ENUM в джаве, varchar(128) в базе)
+9. DTOOOOOшки
+
+!!! исправить not null у релиза, data_end_of_work?
