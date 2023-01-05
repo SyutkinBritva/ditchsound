@@ -32,7 +32,7 @@ public class Price {
     @Column (name = "total_amount")
     private Double totalAmount;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "release_id")
     private Release release;
 }

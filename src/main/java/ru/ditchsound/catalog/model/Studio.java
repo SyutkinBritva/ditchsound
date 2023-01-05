@@ -24,20 +24,28 @@ public class Studio {
     @Column (name = "social_network_link")
     private String socialNetworkLink;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn (name = "instrument_id")
+    @OneToMany(mappedBy = "studio"
+            , fetch = FetchType.LAZY
+            , cascade = CascadeType.ALL
+            , orphanRemoval = true)
     private List<Instrument> instrumentList;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn (name = "guitar_id")
+    @OneToMany(mappedBy = "studio"
+            , fetch = FetchType.LAZY
+            , cascade = CascadeType.ALL
+            , orphanRemoval = true)
     private List<Guitar> guitarList;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn (name = "drums_id")
+    @OneToMany(mappedBy = "studio"
+            , fetch = FetchType.LAZY
+            , cascade = CascadeType.ALL
+            , orphanRemoval = true)
     private List<Drums> drumsList;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn (name = "vocal_id")
+    @OneToMany(mappedBy = "studio"
+            , fetch = FetchType.LAZY
+            , cascade = CascadeType.ALL
+            , orphanRemoval = true)
     private List<Vocal> vocalsList;
 
 }

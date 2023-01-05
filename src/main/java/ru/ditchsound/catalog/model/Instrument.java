@@ -24,7 +24,9 @@ public class Instrument {
     @Column (name = "instrument_tone_stack_img")
     private String instrumentToneStackImg;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "release_id")
+    @ManyToOne (fetch = FetchType.LAZY)
     private Release release;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    private Studio studio;
 }

@@ -5,8 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,4 +43,25 @@ public class Release {
     private String multitrackLink;
     @Column (name = "music_label")
     private String musicLabel;
+
+    //@OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+   // private List<Drums> drumsList;
+   // @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+   // private List<Genre> genreList;
+    @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Guitar> guitarList;
+   // @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<Instrument> instrumentList;
+   // @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+   // private List<Vocal> vocalList;
+
+//    @OneToOne (
+//            mappedBy = "release",
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY,
+//            optional = false
+//    )
+//    private Price price;
+
+
 }

@@ -23,7 +23,9 @@ public class Vocal {
     private String vocalMic;
 
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "release_id")
     private Release release;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    private Studio studio;
 
 }
