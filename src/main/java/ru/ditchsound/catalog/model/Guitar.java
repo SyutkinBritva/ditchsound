@@ -1,5 +1,6 @@
 package ru.ditchsound.catalog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,11 +24,11 @@ public class Guitar {
     private String toneStackImg;
 
     @ManyToOne (fetch = FetchType.LAZY)
-    @EqualsAndHashCode.Exclude @ToString.Exclude
+    @JsonIgnore
     @JoinColumn(name = "release_id")
     private Release release;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "studio_id")
-    private Studio studio;
+//    @ManyToOne (fetch = FetchType.LAZY)
+//    @JoinColumn (name = "studio_id")
+//    private Studio studio;
 }

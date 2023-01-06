@@ -1,5 +1,6 @@
 package ru.ditchsound.catalog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table (name = "release")
+@Table(name = "release")
 public class Release {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long releaseId;
-    @Column (name = "band_name")
+    @Column(name = "band_name")
     private String bandName;
     @Column (name = "work_description")
     private String workDescription;
@@ -49,6 +50,7 @@ public class Release {
    // @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
    // private List<Genre> genreList;
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Guitar> guitarList;
    // @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
     //private List<Instrument> instrumentList;

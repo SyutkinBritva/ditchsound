@@ -30,15 +30,13 @@ public class ReleasesController {
         return new ResponseEntity<>(releaseService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{bandName}")
+    @GetMapping("/band/{bandName}")
     public ResponseEntity<List<Release>> getReleaseByBandName(@PathVariable("bandName") String bandName){
         return new ResponseEntity<>(releaseService.findReleaseByBandName(bandName), HttpStatus.OK);
     }
 
-    @GetMapping("/{status}")
+    @GetMapping("/status/{status}")
     public ResponseEntity<List<Release>> getReleaseByStatus(@PathVariable("status") String status){
         return new ResponseEntity<>(releaseService.findByStatus(status), HttpStatus.OK);
     }
-
-
 }

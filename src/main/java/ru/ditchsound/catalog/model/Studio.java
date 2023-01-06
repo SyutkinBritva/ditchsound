@@ -30,11 +30,11 @@ public class Studio {
             , orphanRemoval = true)
     private List<Instrument> instrumentList;
 
-    @OneToMany(mappedBy = "studio"
-            , fetch = FetchType.LAZY
-            , cascade = CascadeType.ALL
-            , orphanRemoval = true)
-    private List<Guitar> guitarList;
+//    @OneToMany(mappedBy = "studio"
+//            , fetch = FetchType.LAZY
+//            , cascade = CascadeType.ALL
+//            , orphanRemoval = true)
+//    private List<Guitar> guitarList;
 
     @OneToMany(mappedBy = "studio"
             , fetch = FetchType.LAZY
