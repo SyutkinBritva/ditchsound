@@ -1,5 +1,8 @@
 package ru.ditchsound.catalog.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ditchsound.catalog.converters.DrumConverter;
@@ -28,10 +31,11 @@ public class DrumsServiceImpl implements DrumsService {
         DrumsDto drumsDto = drumConverter.toDrumDto(drums);
         return drumsDto;
     }
-///
+
     @Transactional(readOnly = true)
-    public List<DrumsDto> findAllDrums(){
-        List<Drums> drums = drumsRepository.findAll();
+    public List<DrumsDto> findAllDrums(int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Drums> drums = drumsRepository.findAll(pageable);
         List<DrumsDto> dtos = drums.stream().
                 map(d -> drumConverter.toDrumDto(d)).
                 collect(Collectors.toList());

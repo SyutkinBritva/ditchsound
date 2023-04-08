@@ -3,10 +3,7 @@ package ru.ditchsound.catalog.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.ditchsound.catalog.dto.DrumsDto;
 import ru.ditchsound.catalog.service.DrumsService;
 
@@ -25,8 +22,11 @@ public class DrumsController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<DrumsDto>> getAllDrums (){
-        return new ResponseEntity<>(drumsService.findAllDrums(), HttpStatus.OK);
+    public ResponseEntity<List<DrumsDto>> getAllDrums (
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size
+    ){
+        return new ResponseEntity<>(drumsService.findAllDrums(page, size), HttpStatus.OK);
     }
 
     @GetMapping("/band/{bandName}")

@@ -9,5 +9,4 @@ public interface DrumsRepository extends JpaRepository<Drums, Long> {
 //    List<Drums> findAllByStudioStudioNameIgnoreCase(String name);
     List<Drums> findAllByReleaseBandNameIgnoreCase(String name);
     List<Drums> findAllByDrumsType(String type);
-
 }
