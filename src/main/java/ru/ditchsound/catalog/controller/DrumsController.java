@@ -24,7 +24,7 @@ public class DrumsController {
     @GetMapping()
     public ResponseEntity<List<DrumsDto>> getAllDrums (
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int size
+            @RequestParam(required = false, defaultValue = "5") int size
     ){
         return new ResponseEntity<>(drumsService.findAllDrums(page, size), HttpStatus.OK);
     }

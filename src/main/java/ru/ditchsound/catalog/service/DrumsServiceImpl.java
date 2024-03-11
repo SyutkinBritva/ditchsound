@@ -36,10 +36,10 @@ public class DrumsServiceImpl implements DrumsService {
     public List<DrumsDto> findAllDrums(int pageNumber, int pageSize){
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.findAll(pageable);
-        List<DrumsDto> dtos = drums.stream().
+        List<DrumsDto> drumsAll = drums.stream().
                 map(d -> drumConverter.toDrumDto(d)).
                 collect(Collectors.toList());
-        return dtos;
+        return drumsAll;
     }
 
 //    @Transactional(readOnly = true)
@@ -50,10 +50,10 @@ public class DrumsServiceImpl implements DrumsService {
     @Transactional(readOnly = true)
     public List<DrumsDto> findDrumsByBandName(String name){
         List<Drums> drums = drumsRepository.findAllByReleaseBandNameIgnoreCase(name);
-        List<DrumsDto> dtos = drums.stream().
+        List<DrumsDto> drumsAll = drums.stream().
                 map(d -> drumConverter.toDrumDto(d)).
                 collect(Collectors.toList());
-        return dtos;
+        return drumsAll;
     }
 
     @Transactional(readOnly = true)

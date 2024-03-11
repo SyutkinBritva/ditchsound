@@ -10,7 +10,8 @@ public interface DrumsService {
     /** поиск Drum инструмента по id **/
     DrumsDto findDrumsById(Long id);
 
-    /** поиск всех drums инструментов по id **/
+
+    /** поиск всех drums инструментов**/
     List<DrumsDto> findAllDrums(int page, int size);
 
 //    /** поиск всех drums инструментов по имени студии **/

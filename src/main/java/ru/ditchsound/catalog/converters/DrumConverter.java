@@ -6,9 +6,9 @@ import ru.ditchsound.catalog.model.Drums;
 
 @Component
 public class DrumConverter {
-//
+    //
     public DrumsDto toDrumDto(Drums drums) {
-         DrumsDto drumsDto = new DrumsDto();
+        DrumsDto drumsDto = new DrumsDto();
         //ReleaseDto releaseDto = new ReleaseDto();
 
         return drumsDto.setDrumsType(drums.getDrumsType())
