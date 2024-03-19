@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+
+-- changeset iOvcharenko:1
 create table if not exists release
 (
     release_id          bigint                   not null,
@@ -48,6 +51,7 @@ comment on column release.multitrack_link is
 comment on column release.music_label is
     'Лейбл на котором издается релиз';
 
+-- changeset iOvcharenko:2
 create table if not exists studio
 (
     studio_id           bigint       not null,
@@ -69,6 +73,7 @@ comment on column studio.studio_place is
 comment on column studio.social_network_link is
     'Ссылка на студию';
 
+-- changeset iOvcharenko:3
 create table if not exists price
 (
     price_id            bigint  not null,
@@ -109,6 +114,7 @@ alter table price
         references release (release_id)
         on delete restrict on update restrict;
 
+-- changeset iOvcharenko:4
 create table if not exists drums
 (
     drums_id    bigint       not null,
@@ -138,6 +144,7 @@ alter table drums
         references release (release_id)
         on delete restrict on update restrict;
 
+-- changeset iOvcharenko:5
 create table if not exists guitar
 (
     guitar_id      bigint       not null,
@@ -172,6 +179,7 @@ alter table guitar
         on delete restrict on UPDATE restrict;
 
 
+-- changeset iOvcharenko:6
 create table if not exists vocal
 (
     vocal_id        bigint       not null,
@@ -198,6 +206,7 @@ alter table vocal
         references release (release_id)
         on delete restrict on update restrict;
 
+-- changeset iOvcharenko:7
 create table if not exists instrument
 (
     instrument_id             bigint       not null,
@@ -223,7 +232,7 @@ alter table instrument
         references release (release_id)
         on delete restrict on update restrict;
 
-
+-- changeset iOvcharenko:8
 create table if not exists genre
 (
     genre_id   bigint       not null,
