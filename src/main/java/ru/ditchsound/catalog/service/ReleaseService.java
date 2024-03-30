@@ -13,5 +13,5 @@ List<ReleaseDto> findAll(int page, int size);
 List<ReleaseDto> findReleaseByBandName(String name, int page, int size);
     /** поиск релиза по статусу**/
 List<ReleaseDto> findByStatus(String status, int page, int size);
-
+//TODO добавляю эту строчку чтобы ты решил merge conlict :)(
 }
