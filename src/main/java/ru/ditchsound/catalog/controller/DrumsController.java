@@ -30,18 +30,29 @@ public class DrumsController {
     }
 
     @GetMapping("/band/{bandName}")
-    public ResponseEntity<List<DrumsDto>> getDrumsByBandName (@PathVariable("bandName") String bandName){
-        return new ResponseEntity<>(drumsService.findDrumsByBandName(bandName), HttpStatus.OK);
+    public ResponseEntity<List<DrumsDto>> getDrumsByBandName (@PathVariable("bandName") String bandName
+                                                               , @RequestParam(required = false, defaultValue = "0") int page
+                                                               , @RequestParam(required = false, defaultValue = "5") int size
+    ){
+        return new ResponseEntity<>(drumsService.findDrumsByBandName(bandName, page, size), HttpStatus.OK);
     }
 
     @GetMapping("byDrumsType/{type}")
-    public ResponseEntity<List<DrumsDto>> getDrumsByType (@PathVariable("type") String type){
-        return new ResponseEntity<>(drumsService.findDrumsByType(type), HttpStatus.OK);
+    public ResponseEntity<List<DrumsDto>> getDrumsByType (@PathVariable("type") String type
+                                                           , @RequestParam(required = false, defaultValue = "0") int page
+                                                           , @RequestParam(required = false, defaultValue = "5") int size
+    ){
+        return new ResponseEntity<>(drumsService.findDrumsByType(type, page, size), HttpStatus.OK);
     }
 
-//    @GetMapping("/studio/{studio}")
-//    public ResponseEntity<List<Drums>> getDrumsByStudio (@PathVariable("studio") String studioName){
-//        return new ResponseEntity<>(drumsService.findDrumsByStudio(studioName), HttpStatus.OK);
-//    }
+    @GetMapping("/studio/{studio}")
+    public ResponseEntity<List<DrumsDto>> getDrumsByStudio (
+            @PathVariable("studio") String studio
+           , @RequestParam(required = false, defaultValue = "0") int page
+            , @RequestParam(required = false, defaultValue = "5") int size
+    ){
+
+        return new ResponseEntity<>(drumsService.findDrumsByStudio(studio, page, size), HttpStatus.OK);
+    }
 
 }

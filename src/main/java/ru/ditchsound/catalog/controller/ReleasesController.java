@@ -3,10 +3,7 @@ package ru.ditchsound.catalog.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.ditchsound.catalog.dto.ReleaseDto;
 import ru.ditchsound.catalog.service.ReleaseService;
 
@@ -26,18 +23,28 @@ public class ReleasesController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ReleaseDto>> getAllReleases(){
-        return new ResponseEntity<>(releaseService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<ReleaseDto>> getAllReleases(
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "5") int size
+    ){
+        return new ResponseEntity<>(releaseService.findAll(page, size), HttpStatus.OK);
     }
 
     @GetMapping("byBandName/{bandName}")
-    public ResponseEntity<List<ReleaseDto>> getReleaseByBandName(@PathVariable("bandName") String bandName){
-        return new ResponseEntity<>(releaseService.findReleaseByBandName(bandName), HttpStatus.OK);
+    public ResponseEntity<List<ReleaseDto>> getReleaseByBandName(@PathVariable("bandName")
+                String bandName,
+                @RequestParam(required = false, defaultValue = "0") int page,
+                @RequestParam(required = false, defaultValue = "5") int size
+     ){
+        return new ResponseEntity<>(releaseService.findReleaseByBandName(bandName, page, size), HttpStatus.OK);
     }
 
    @GetMapping("byStatus/{status}")
-   public ResponseEntity<List<ReleaseDto>> getReleaseByStatus(@PathVariable("status") String status){
-       return new ResponseEntity<>(releaseService.findByStatus(status), HttpStatus.OK);
+   public ResponseEntity<List<ReleaseDto>> getReleaseByStatus(@PathVariable("status")String status,
+                 @RequestParam(required = false, defaultValue = "0") int page,
+                 @RequestParam(required = false, defaultValue = "5") int size
+    ){
+       return new ResponseEntity<>(releaseService.findByStatus(status,page, size), HttpStatus.OK);
     }
 
 

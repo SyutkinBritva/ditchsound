@@ -28,6 +28,7 @@ public class Drums {
     @JoinColumn(name = "release_id")
     private Release release;
 
-//    @ManyToOne (fetch = FetchType.LAZY)
-//    private Studio studio;
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "studio_id")
+    private Studio studio;
 }

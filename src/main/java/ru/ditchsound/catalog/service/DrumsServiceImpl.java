@@ -42,14 +42,24 @@ public class DrumsServiceImpl implements DrumsService {
         return drumsAll;
     }
 
-//    @Transactional(readOnly = true)
-//    public List<Drums> findDrumsByStudio(String name){
-//        return drumsRepository.findAllByStudioStudioNameIgnoreCase(name);
-//    }
 
     @Transactional(readOnly = true)
-    public List<DrumsDto> findDrumsByBandName(String name){
-        List<Drums> drums = drumsRepository.findAllByReleaseBandNameIgnoreCase(name);
+    public List<DrumsDto> findDrumsByStudio (String name, int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Drums> drums = drumsRepository.
+                findAllByStudioStudioNameIgnoreCase(name, pageable);
+        List<DrumsDto> drumsAll = drums.stream().
+                map(d -> drumConverter.toDrumDto(d)).
+                collect(Collectors.toList());
+        return drumsAll;
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<DrumsDto> findDrumsByBandName(String bandName, int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Drums> drums = drumsRepository.
+                findAllByReleaseBandNameIgnoreCase(bandName, pageable);
         List<DrumsDto> drumsAll = drums.stream().
                 map(d -> drumConverter.toDrumDto(d)).
                 collect(Collectors.toList());
@@ -57,8 +67,9 @@ public class DrumsServiceImpl implements DrumsService {
     }
 
     @Transactional(readOnly = true)
-    public List<DrumsDto> findDrumsByType(String type){
-        List<Drums> drums = drumsRepository.findAllByDrumsType(type);
+    public List<DrumsDto> findDrumsByType(String drumType, int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Drums> drums = drumsRepository.findAllByDrumsType(drumType, pageable);
         List<DrumsDto> dtos = drums.stream().
                 map(d -> drumConverter.toDrumDto(d)).
                 collect(Collectors.toList());
