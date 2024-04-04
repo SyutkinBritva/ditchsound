@@ -6,9 +6,9 @@
  Добавить в готовый метод сортировку, как это сделано 
  в parking-cards. Реализовать Pageable для всех контроллеров
  и методов FindAll
-2. реализовать ВСЕ остальные методы для всех остальных entity по созданию\редактированию сущности в базе данных.
-3. заменить bigint для primary key на serial, почитать что такое sequence в базе данных - UPDATE хуйню написал, у нас это деалет @GeneratedValue(strategy = GenerationType.IDENTITY)
-4. liquibase, добавить в проект (https://youtu.be/JTdcd4DYgEI)
+2. реализовать ВСЕ остальные методы для всех остальных entity по созданию\редактированию сущности в базе данных, для начала POST (создание сущностей)
+~~3. заменить bigint для primary key на serial, почитать что такое sequence в базе данных - UPDATE хуйню написал, у нас это деалет @GeneratedValue(strategy = GenerationType.IDENTITY)~~
+~~4. liquibase, добавить в проект (https://youtu.be/JTdcd4DYgEI)~~ 
 5. добавить новый скрипт с liquibase "add-releaseType-varchar" 
 (епи-сингл-альбом будет ENUM в джаве, varchar(128) в базе)
 6. Логгирование sl4j, сохранение логов в отдельный текстовый документ на жестком диске
