@@ -28,18 +28,16 @@ public class DrumsServiceImpl implements DrumsService {
     public DrumsDto findDrumsById(Long id){
         Drums drums = drumsRepository.findById(id).orElseThrow(
                 () -> new RuntimeException(String.format("в базе нет барабанов с переданным id %s", id)));
-        DrumsDto drumsDto = drumConverter.toDrumDto(drums);
-        return drumsDto;
+        return drumConverter.toDrumDto(drums);
     }
 
     @Transactional(readOnly = true)
     public List<DrumsDto> findAllDrums(int pageNumber, int pageSize){
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.findAll(pageable);
-        List<DrumsDto> drumsAll = drums.stream().
-                map(d -> drumConverter.toDrumDto(d)).
+        return drums.stream().
+                map(drumConverter::toDrumDto).
                 collect(Collectors.toList());
-        return drumsAll;
     }
 
 
@@ -48,10 +46,9 @@ public class DrumsServiceImpl implements DrumsService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.
                 findAllByStudioStudioNameIgnoreCase(name, pageable);
-        List<DrumsDto> drumsAll = drums.stream().
-                map(d -> drumConverter.toDrumDto(d)).
+        return drums.stream().
+                map(drumConverter::toDrumDto).
                 collect(Collectors.toList());
-        return drumsAll;
     }
 
 
@@ -60,20 +57,18 @@ public class DrumsServiceImpl implements DrumsService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.
                 findAllByReleaseBandNameIgnoreCase(bandName, pageable);
-        List<DrumsDto> drumsAll = drums.stream().
-                map(d -> drumConverter.toDrumDto(d)).
+        return drums.stream().
+                map(drumConverter::toDrumDto).
                 collect(Collectors.toList());
-        return drumsAll;
     }
 
     @Transactional(readOnly = true)
     public List<DrumsDto> findDrumsByType(String drumType, int pageNumber, int pageSize){
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.findAllByDrumsType(drumType, pageable);
-        List<DrumsDto> dtos = drums.stream().
-                map(d -> drumConverter.toDrumDto(d)).
+        return drums.stream().
+                map(drumConverter::toDrumDto).
                 collect(Collectors.toList());
-        return dtos;
     }
 
 }

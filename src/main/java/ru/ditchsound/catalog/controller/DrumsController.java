@@ -8,10 +8,8 @@ import ru.ditchsound.catalog.dto.DrumsDto;
 import ru.ditchsound.catalog.service.DrumsService;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/drums")
-//@Tag(name = "Барабаны", description = "методы для работы с барабанами")
 @RequiredArgsConstructor
 public class DrumsController {
     private final DrumsService drumsService;

@@ -67,5 +67,30 @@ public class ReleaseServiceImpl implements ReleaseService {
                 collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<ReleaseDto> findByLabelName(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Release> releasePage = releaseRepository.
+                findAllByMusicLabel(name, pageable);
+        return releasePage.stream().map(releaseConverter::toReleaseDto).
+                collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReleaseDto> findByGenre (String genre, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Release> releasePage = releaseRepository.findAllByGenreGenreName(genre, pageable);
+        return releasePage.stream().map(releaseConverter::toReleaseDto).
+                collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReleaseDto> findByPrice(Double price, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Release> releasePage = releaseRepository.findAllByPriceTotalAmount(price, pageable);
+        return releasePage.stream().map(releaseConverter::toReleaseDto).
+                collect(Collectors.toList());
+    }
+
 
 }

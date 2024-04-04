@@ -1,6 +1,7 @@
 package ru.ditchsound.catalog.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table (name = "release")
 public class Release {
     @Id
@@ -47,8 +49,6 @@ public class Release {
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Drums> drumsList;
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Genre> genreList;
-    @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Guitar> guitarList;
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Instrument> instrumentList;
@@ -63,5 +63,12 @@ public class Release {
     )
     private Price price;
 
+    @OneToOne (
+            mappedBy = "release",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            optional = false
+    )
+    private Genre genre;
 
 }

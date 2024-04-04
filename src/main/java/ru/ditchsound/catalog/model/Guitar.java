@@ -8,6 +8,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "guitar")
 public class Guitar {
     @Id
@@ -23,7 +24,6 @@ public class Guitar {
     private String toneStackImg;
 
     @ManyToOne (fetch = FetchType.LAZY)
-    @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name = "release_id")
     private Release release;
 

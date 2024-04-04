@@ -8,17 +8,15 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Accessors(chain = true)
-public class DrumsDto {
+public class InstrumentDto {
 
-    @Schema(description = "тип барабанов")
-    private String drumsType;
-    @Schema(description = "модель барабанов")
-    private String drumsModel;
+    @Schema (description = "тип инструмента")
+    private String instrumentType;
 
-    private StudioDto studioDto;
     private ReleaseDto releaseDto;
+    private StudioDto studioDto;
 }

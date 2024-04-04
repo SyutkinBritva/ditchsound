@@ -12,13 +12,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class DrumsDto {
-
-    @Schema(description = "тип барабанов")
-    private String drumsType;
-    @Schema(description = "модель барабанов")
-    private String drumsModel;
-
-    private StudioDto studioDto;
-    private ReleaseDto releaseDto;
+public class GenreDto {
+    @Schema (description = "Name of the genre")
+    private String genreName;
 }

@@ -1,18 +1,20 @@
-//package ru.ditchsound.catalog.service;
-//
-//import ru.ditchsound.catalog.model.Guitar;
-//
-//import java.util.List;
-//
-///** Сервис инструмента Guitar **/
-//public interface GuitarService {
-//
-//    /** поиск гитары по айди **/
-//    Guitar findById (Long id);
-//    /** поиск всех гитар **/
-//    List<Guitar> findAllGuitars ();
-//    /** поиск гитар по типу **/
-//    List<Guitar> findByGuitarType (String type);
-//    /** поиск всех гитар по имени группы **/
-//    List<Guitar> findByBandName (String bandName);
-//}
+package ru.ditchsound.catalog.service;
+
+import ru.ditchsound.catalog.dto.GuitarDto;
+
+import java.util.List;
+
+/** Сервис инструмента Guitar **/
+public interface GuitarService {
+
+    /** поиск гитары по айди **/
+    GuitarDto findById (Long id);
+    /** поиск всех гитар **/
+    List<GuitarDto> findAllGuitars (int page, int size);
+    /** поиск гитар по типу **/
+    List<GuitarDto> findByGuitarType (String type, int page, int size);
+    /** поиск всех гитар по имени группы **/
+    List<GuitarDto> findByBandName (String bandName, int page, int size);
+    /** поиск всех гитар по названию студии **/
+    List<GuitarDto> findByStudioName (String studioName, int page, int size);
+}

@@ -12,4 +12,12 @@ public interface ReleaseRepository extends JpaRepository<Release, Long> {
 
     Page<Release> findAllByReleaseStatus(String status,Pageable pageable);
 
+    Page<Release> findAllByMusicLabel (String musicLabel, Pageable pageable);
+
+    Page<Release>  findAllByGenreGenreName (String genre, Pageable pageable);
+
+    Page<Release> findAllByPriceTotalAmount (Double price, Pageable pageable);
+
+
+
 }

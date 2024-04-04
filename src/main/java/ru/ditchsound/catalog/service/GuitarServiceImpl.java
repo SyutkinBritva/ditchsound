@@ -1,41 +1,71 @@
-//package ru.ditchsound.catalog.service;
-//
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//import ru.ditchsound.catalog.model.Guitar;
-//import ru.ditchsound.catalog.repository.GuitarRepository;
-//
-//import java.util.List;
-//
-//@Service
-//public class GuitarServiceImpl implements GuitarService {
-//
-//    private final GuitarRepository guitarRepositry;
-//
-//    public GuitarServiceImpl(GuitarRepository guitarRepositry) {
-//        this.guitarRepositry = guitarRepositry;
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public Guitar findById(Long id) {
-//        Guitar guitar = guitarRepositry.findById(id).orElseThrow(() ->
-//                new RuntimeException(String.format("в базе нет гитар с переданным id %s", id)));
-//        return guitar;
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public List<Guitar> findAllGuitars() {
-//
-//        return guitarRepositry.findAll();
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public List<Guitar> findByGuitarType(String type){
-//        return guitarRepositry.findAllByGuitarType(type);
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public List<Guitar> findByBandName(String bandName){
-//        return guitarRepositry.findAllByReleaseBandNameIgnoreCase(bandName);
-//    }
-//}
+package ru.ditchsound.catalog.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.ditchsound.catalog.converters.GuitarConverter;
+import ru.ditchsound.catalog.dto.GuitarDto;
+import ru.ditchsound.catalog.model.Guitar;
+import ru.ditchsound.catalog.repository.GuitarRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class GuitarServiceImpl implements GuitarService  {
+    private final GuitarRepository guitarRepository;
+    private final GuitarConverter guitarConverter;
+    public GuitarServiceImpl(GuitarRepository guitarRepository, GuitarConverter guitarConverter) {
+        this.guitarRepository = guitarRepository;
+        this.guitarConverter = guitarConverter;
+    }
+
+    @Transactional(readOnly = true)
+    public GuitarDto findById(Long id) {
+        Guitar guitar = guitarRepository.findById(id).
+                orElseThrow(
+                        () -> new RuntimeException
+                                (String.format("в базе нет барабанов с переданным id %s", id)));
+        return guitarConverter.toGuitarDto(guitar);
+    }
+
+    @Transactional(readOnly = true)
+    public List<GuitarDto> findAllGuitars(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Guitar> guitars = guitarRepository.findAll(pageable);
+        return guitars.stream().
+                map(guitarConverter::toGuitarDto).
+                collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<GuitarDto> findByGuitarType(String type, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Guitar> guitars = guitarRepository.findAllByGuitarType(type, pageable);
+        return guitars.stream().
+                map(guitarConverter::toGuitarDto).
+                collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<GuitarDto> findByBandName(String bandName, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Guitar> guitars = guitarRepository.
+                findAllByReleaseBandNameIgnoreCase(bandName, pageable);
+        return guitars.stream().
+                map(guitarConverter::toGuitarDto).
+                collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<GuitarDto> findByStudioName(String studioName, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Guitar> guitars = guitarRepository.
+                findAllByStudioStudioNameIgnoreCase(studioName, pageable);
+        return guitars.stream().
+                map(guitarConverter::toGuitarDto).
+                collect(Collectors.toList());
+    }
+}

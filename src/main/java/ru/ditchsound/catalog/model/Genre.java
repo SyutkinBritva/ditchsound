@@ -1,6 +1,7 @@
 package ru.ditchsound.catalog.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "genre")
 public class Genre {
     @Id
@@ -18,6 +20,7 @@ public class Genre {
    @Column (name = "genre_name")
    private String genreName;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "release_id")
     private Release release;
 }
