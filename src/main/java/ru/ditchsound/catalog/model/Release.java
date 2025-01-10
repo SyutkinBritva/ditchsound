@@ -55,20 +55,9 @@ public class Release {
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vocal> vocalList;
 
-    @OneToOne (
-            mappedBy = "release",
-            cascade = CascadeType.ALL,
-           fetch = FetchType.LAZY,
-           optional = false
-    )
+    @OneToOne(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
     private Price price;
 
-    @OneToOne (
-            mappedBy = "release",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            optional = false
-    )
-    private Genre genre;
-
+    @Enumerated(EnumType.STRING)
+    private GenreEnum genre;
 }

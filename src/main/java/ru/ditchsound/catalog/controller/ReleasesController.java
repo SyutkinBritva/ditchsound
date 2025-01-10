@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ditchsound.catalog.dto.ReleaseDto;
+import ru.ditchsound.catalog.dto.createDTO.ReleaseCreateDto;
+import ru.ditchsound.catalog.model.GenreEnum;
+import ru.ditchsound.catalog.model.Release;
 import ru.ditchsound.catalog.service.ReleaseService;
 
 import java.util.List;
@@ -56,7 +59,7 @@ public class ReleasesController {
     }
 
     @GetMapping("byGenreName/{genreName}")
-    public ResponseEntity<List<ReleaseDto>> getReleaseByGenreName(@PathVariable("genreName") String genre,
+    public ResponseEntity<List<ReleaseDto>> getReleaseByGenreName(@PathVariable("genreName") GenreEnum genre,
                                                                  @RequestParam(required = false, defaultValue = "0") int page,
                                                                  @RequestParam(required = false, defaultValue = "5") int size
     ) {
@@ -69,6 +72,12 @@ public class ReleasesController {
                                                                @RequestParam(required = false, defaultValue = "5") int size
     ) {
         return new ResponseEntity<>(releaseService.findByPrice(price, page, size), HttpStatus.OK);
+    }
+
+    @PostMapping()
+    public ResponseEntity<Release> createRelease(@RequestBody ReleaseCreateDto release) {
+        Release saveEntity = releaseService.createRelease(release);
+        return  ResponseEntity.status(HttpStatus.CREATED).body(saveEntity);
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ditchsound.catalog.converters.DrumConverter;
 import ru.ditchsound.catalog.dto.DrumsDto;
+import ru.ditchsound.catalog.mappers.DrumsMapper;
 import ru.ditchsound.catalog.model.Drums;
 import ru.ditchsound.catalog.repository.DrumsRepository;
 
@@ -17,18 +18,18 @@ import java.util.stream.Collectors;
 public class DrumsServiceImpl implements DrumsService {
 
     private final DrumsRepository drumsRepository;
-    private final DrumConverter drumConverter;
+    private final DrumsMapper drumsMapper;
 
-    public DrumsServiceImpl(DrumsRepository drumsRepository, DrumConverter drumConverter) {
+    public DrumsServiceImpl(DrumsRepository drumsRepository, DrumConverter drumConverter, DrumsMapper drumsMapper) {
         this.drumsRepository = drumsRepository;
-        this.drumConverter = drumConverter;
+        this.drumsMapper = drumsMapper;
     }
 
     @Transactional(readOnly = true)
     public DrumsDto findDrumsById(Long id){
         Drums drums = drumsRepository.findById(id).orElseThrow(
                 () -> new RuntimeException(String.format("в базе нет барабанов с переданным id %s", id)));
-        return drumConverter.toDrumDto(drums);
+        return drumsMapper.toDto(drums);
     }
 
     @Transactional(readOnly = true)
@@ -36,7 +37,7 @@ public class DrumsServiceImpl implements DrumsService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.findAll(pageable);
         return drums.stream().
-                map(drumConverter::toDrumDto).
+                map(drumsMapper::toDto).
                 collect(Collectors.toList());
     }
 
@@ -47,7 +48,7 @@ public class DrumsServiceImpl implements DrumsService {
         Page<Drums> drums = drumsRepository.
                 findAllByStudioStudioNameIgnoreCase(name, pageable);
         return drums.stream().
-                map(drumConverter::toDrumDto).
+                map(drumsMapper::toDto).
                 collect(Collectors.toList());
     }
 
@@ -58,7 +59,7 @@ public class DrumsServiceImpl implements DrumsService {
         Page<Drums> drums = drumsRepository.
                 findAllByReleaseBandNameIgnoreCase(bandName, pageable);
         return drums.stream().
-                map(drumConverter::toDrumDto).
+                map(drumsMapper::toDto).
                 collect(Collectors.toList());
     }
 
@@ -67,8 +68,13 @@ public class DrumsServiceImpl implements DrumsService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.findAllByDrumsType(drumType, pageable);
         return drums.stream().
-                map(drumConverter::toDrumDto).
+                map(drumsMapper::toDto).
                 collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Long createDrums (Drums drums) {
+        return drumsRepository.saveAndFlush(drums).getDrumsId();
     }
 
 }

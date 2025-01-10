@@ -14,5 +14,5 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class StudioDto {
     @Schema(description = "имя студии")
-    private String name;
+    private String studioName;
 }

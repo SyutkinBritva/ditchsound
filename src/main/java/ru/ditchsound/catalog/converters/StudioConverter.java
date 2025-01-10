@@ -8,6 +8,6 @@ import ru.ditchsound.catalog.model.Studio;
 public class StudioConverter {
     public StudioDto toStudioDto(Studio studio) {
         StudioDto studioDto = new StudioDto();
-        return studioDto.setName(studio.getStudioName());
+        return studioDto.setStudioName(studio.getStudioName());
     }
 }
