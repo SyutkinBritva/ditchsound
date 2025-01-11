@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ditchsound.catalog.dto.DrumsDto;
+import ru.ditchsound.catalog.model.Drums;
 import ru.ditchsound.catalog.service.DrumsService;
 
 import java.util.List;
@@ -51,6 +52,12 @@ public class DrumsController {
     ){
 
         return new ResponseEntity<>(drumsService.findDrumsByStudio(studio, page, size), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> createDrums(@RequestBody Drums drums){
+        long id = drumsService.createDrums(drums);
+        return new ResponseEntity<>(String.valueOf(id), HttpStatus.OK);
     }
 
 }

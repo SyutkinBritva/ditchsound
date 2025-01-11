@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ditchsound.catalog.converters.VocalConverter;
 import ru.ditchsound.catalog.dto.VocalDto;
+import ru.ditchsound.catalog.mappers.VocalMapper;
 import ru.ditchsound.catalog.model.Vocal;
 import ru.ditchsound.catalog.repository.VocalRepository;
 
@@ -16,11 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class VocalServiceImpl implements VocalService {
     private final VocalRepository vocalRepository;
-    private final VocalConverter vocalConverter;
+    private final VocalMapper vocalMapper;
 
-    public VocalServiceImpl(VocalRepository vocalRepository, VocalConverter vocalConverter) {
+    public VocalServiceImpl(VocalRepository vocalRepository, VocalConverter vocalConverter, VocalMapper vocalMapper) {
         this.vocalRepository = vocalRepository;
-        this.vocalConverter = vocalConverter;
+        this.vocalMapper = vocalMapper;
     }
 
 
@@ -30,7 +31,7 @@ public class VocalServiceImpl implements VocalService {
                 orElseThrow(
                         () -> new RuntimeException(String.
                                 format("в базе нет барабанов с переданным id %s", id)));
-        return vocalConverter.toVocalDto(vocal);
+        return vocalMapper.toDto(vocal);
     }
 
     @Transactional(readOnly = true)
@@ -38,7 +39,7 @@ public class VocalServiceImpl implements VocalService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Vocal> vocals = vocalRepository.findAll(pageable);
         return vocals.stream().
-                    map(vocalConverter::toVocalDto).
+                    map(vocalMapper::toDto).
                     collect(Collectors.toList());
     }
 
@@ -47,7 +48,7 @@ public class VocalServiceImpl implements VocalService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Vocal> vocals = vocalRepository.findAllByStudioStudioName(studioName, pageable);
         return vocals.stream().
-                map(vocalConverter::toVocalDto).
+                map(vocalMapper::toDto).
                 collect(Collectors.toList());
     }
 
@@ -56,7 +57,7 @@ public class VocalServiceImpl implements VocalService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Vocal> vocals = vocalRepository.findAllByReleaseBandName(artistName, pageable);
         return vocals.stream().
-                map(vocalConverter::toVocalDto).
+                map(vocalMapper::toDto).
                 collect(Collectors.toList());
     }
 

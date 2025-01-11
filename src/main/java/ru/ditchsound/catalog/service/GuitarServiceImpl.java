@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ditchsound.catalog.converters.GuitarConverter;
 import ru.ditchsound.catalog.dto.GuitarDto;
+import ru.ditchsound.catalog.mappers.GuitarMapper;
 import ru.ditchsound.catalog.model.Guitar;
 import ru.ditchsound.catalog.repository.GuitarRepository;
 
@@ -16,10 +17,10 @@ import java.util.stream.Collectors;
 @Service
 public class GuitarServiceImpl implements GuitarService  {
     private final GuitarRepository guitarRepository;
-    private final GuitarConverter guitarConverter;
-    public GuitarServiceImpl(GuitarRepository guitarRepository, GuitarConverter guitarConverter) {
+    private final GuitarMapper guitarMapper;
+    public GuitarServiceImpl(GuitarRepository guitarRepository, GuitarConverter guitarConverter, GuitarMapper guitarMapper) {
         this.guitarRepository = guitarRepository;
-        this.guitarConverter = guitarConverter;
+        this.guitarMapper = guitarMapper;
     }
 
     @Transactional(readOnly = true)
@@ -28,7 +29,7 @@ public class GuitarServiceImpl implements GuitarService  {
                 orElseThrow(
                         () -> new RuntimeException
                                 (String.format("в базе нет барабанов с переданным id %s", id)));
-        return guitarConverter.toGuitarDto(guitar);
+        return guitarMapper.toDto(guitar);
     }
 
     @Transactional(readOnly = true)
@@ -36,7 +37,7 @@ public class GuitarServiceImpl implements GuitarService  {
         Pageable pageable = PageRequest.of(page, size);
         Page<Guitar> guitars = guitarRepository.findAll(pageable);
         return guitars.stream().
-                map(guitarConverter::toGuitarDto).
+                map(guitarMapper::toDto).
                 collect(Collectors.toList());
     }
 
@@ -45,7 +46,7 @@ public class GuitarServiceImpl implements GuitarService  {
         Pageable pageable = PageRequest.of(page, size);
         Page<Guitar> guitars = guitarRepository.findAllByGuitarType(type, pageable);
         return guitars.stream().
-                map(guitarConverter::toGuitarDto).
+                map(guitarMapper::toDto).
                 collect(Collectors.toList());
     }
 
@@ -55,7 +56,7 @@ public class GuitarServiceImpl implements GuitarService  {
         Page<Guitar> guitars = guitarRepository.
                 findAllByReleaseBandNameIgnoreCase(bandName, pageable);
         return guitars.stream().
-                map(guitarConverter::toGuitarDto).
+                map(guitarMapper::toDto).
                 collect(Collectors.toList());
     }
 
@@ -65,7 +66,7 @@ public class GuitarServiceImpl implements GuitarService  {
         Page<Guitar> guitars = guitarRepository.
                 findAllByStudioStudioNameIgnoreCase(studioName, pageable);
         return guitars.stream().
-                map(guitarConverter::toGuitarDto).
+                map(guitarMapper::toDto).
                 collect(Collectors.toList());
     }
 }

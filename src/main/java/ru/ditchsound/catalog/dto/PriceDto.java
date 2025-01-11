@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 @Builder
 @Accessors(chain = true)
 public class PriceDto {
+
     @Schema(description = "Total amount of the price")
     private Double totalAmount;
 }

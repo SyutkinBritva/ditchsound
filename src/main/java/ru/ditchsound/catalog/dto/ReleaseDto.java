@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import ru.ditchsound.catalog.model.GenreEnum;
 
 @Data
 @AllArgsConstructor
@@ -22,7 +23,8 @@ public class ReleaseDto {
     @Schema(description = "статус релиза")
     private String releaseStatus;
 
-    private GenreDto genreDto;
+    private GenreEnum genre;
+
     private PriceDto priceDto;
 
 }

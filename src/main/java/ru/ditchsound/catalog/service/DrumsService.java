@@ -1,6 +1,7 @@
 package ru.ditchsound.catalog.service;
 
 import ru.ditchsound.catalog.dto.DrumsDto;
+import ru.ditchsound.catalog.model.Drums;
 
 import java.util.List;
 /** Сервис инструмента Drums **/
@@ -21,4 +22,6 @@ public interface DrumsService {
 
     /** поиск всех drums инструментов по типу**/
     List<DrumsDto> findDrumsByType(String type, int page, int size);
+
+    Long createDrums (Drums drums);
 }
