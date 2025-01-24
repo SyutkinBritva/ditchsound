@@ -1,4 +1,4 @@
-package ru.ditchsound.catalog.model;
+package ru.ditchsound.catalog.enums;
 
 public enum GenreEnum {
     ROCK,

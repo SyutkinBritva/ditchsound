@@ -15,14 +15,17 @@ import java.util.List;
 @Entity
 @Table(name = "studio")
 public class Studio {
+
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long studioId;
 
     @Column (name = "studio_name")
     private String studioName;
+
     @Column (name = "studio_place")
     private String studioPlace;
+
     @Column (name = "social_network_link")
     private String socialNetworkLink;
 

@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ditchsound.catalog.converters.DrumConverter;
 import ru.ditchsound.catalog.dto.DrumsDto;
 import ru.ditchsound.catalog.mappers.DrumsMapper;
 import ru.ditchsound.catalog.model.Drums;
@@ -20,7 +19,7 @@ public class DrumsServiceImpl implements DrumsService {
     private final DrumsRepository drumsRepository;
     private final DrumsMapper drumsMapper;
 
-    public DrumsServiceImpl(DrumsRepository drumsRepository, DrumConverter drumConverter, DrumsMapper drumsMapper) {
+    public DrumsServiceImpl(DrumsRepository drumsRepository, DrumsMapper drumsMapper) {
         this.drumsRepository = drumsRepository;
         this.drumsMapper = drumsMapper;
     }
@@ -72,9 +71,11 @@ public class DrumsServiceImpl implements DrumsService {
                 collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public Long createDrums (Drums drums) {
-        return drumsRepository.saveAndFlush(drums).getDrumsId();
+    //TODO исправить return type с Entity на DTO
+
+    public Drums createDrums (DrumsDto drumsDto) {
+        Drums drums = drumsMapper.toEntity(drumsDto);
+        return drumsRepository.saveAndFlush(drums);
     }
 
 }

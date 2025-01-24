@@ -53,11 +53,11 @@ public class DrumsController {
 
         return new ResponseEntity<>(drumsService.findDrumsByStudio(studio, page, size), HttpStatus.OK);
     }
-
+    //TODO исправить return type с Entity на DTO
     @PostMapping
-    public ResponseEntity<String> createDrums(@RequestBody Drums drums){
-        long id = drumsService.createDrums(drums);
-        return new ResponseEntity<>(String.valueOf(id), HttpStatus.OK);
+    public ResponseEntity<Drums> createDrums(@RequestBody DrumsDto drumsDto){
+        Drums saveEntity = drumsService.createDrums(drumsDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saveEntity);
     }
 
 }

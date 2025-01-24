@@ -7,7 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import ru.ditchsound.catalog.model.GenreEnum;
+import ru.ditchsound.catalog.enums.GenreEnum;
+import ru.ditchsound.catalog.enums.ReleaseStatus;
+import ru.ditchsound.catalog.enums.WorkDescription;
 
 @Data
 @AllArgsConstructor
@@ -18,13 +20,16 @@ public class ReleaseDto {
 
     @Schema(description = "имя исполнителя")
     private String bandName;
-    @Schema(description = "тип работ")
-    private String workDescription;
-    @Schema(description = "статус релиза")
-    private String releaseStatus;
 
+    @Schema(description = "жанр")
     private GenreEnum genre;
 
-    private PriceDto priceDto;
+    @Schema(description = "статус работы")
+    private ReleaseStatus releaseStatus;
 
+    @Schema(description = "какую работу выполняет инженер")
+    private WorkDescription[] workDescription;
+
+    @Schema(description = "цена за релиз")
+    private PriceDto priceDto;
 }

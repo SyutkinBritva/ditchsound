@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ditchsound.catalog.converters.InstrumentConverter;
 import ru.ditchsound.catalog.dto.InstrumentDto;
 import ru.ditchsound.catalog.mappers.InstrumentMapper;
 import ru.ditchsound.catalog.model.Instrument;
@@ -19,7 +18,7 @@ public class InstrumentServiceImpl implements InstrumentService {
     private final InstrumentRepository instrumentRepository;
     private final InstrumentMapper instrumentMapper;
 
-    public InstrumentServiceImpl(InstrumentRepository instrumentRepository, InstrumentConverter instrumentConverter, InstrumentMapper instrumentMapper) {
+    public InstrumentServiceImpl(InstrumentRepository instrumentRepository, InstrumentMapper instrumentMapper) {
         this.instrumentRepository = instrumentRepository;
         this.instrumentMapper = instrumentMapper;
     }
