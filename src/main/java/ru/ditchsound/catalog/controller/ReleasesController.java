@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ditchsound.catalog.dto.ReleaseDto;
 import ru.ditchsound.catalog.dto.createDTO.ReleaseCreateDto;
 import ru.ditchsound.catalog.enums.GenreEnum;
+import ru.ditchsound.catalog.enums.ReleaseStatus;
 import ru.ditchsound.catalog.service.ReleaseService;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class ReleasesController {
     }
 
     @GetMapping("byStatus/{status}")
-    public ResponseEntity<List<ReleaseDto>> getReleaseByStatus(@PathVariable("status") String status,
+    public ResponseEntity<List<ReleaseDto>> getReleaseByStatus(@PathVariable("status") ReleaseStatus status,
                                                                @RequestParam(required = false, defaultValue = "0") int page,
                                                                @RequestParam(required = false, defaultValue = "5") int size
     ) {
@@ -71,13 +72,13 @@ public class ReleasesController {
         return new ResponseEntity<>(releaseService.findByGenre(genre, page, size), HttpStatus.OK);
     }
 
-    @GetMapping("byPrice/{price}")
-    public ResponseEntity<List<ReleaseDto>> getReleaseByPrice(@PathVariable("price") Double price,
-                                                               @RequestParam(required = false, defaultValue = "0") int page,
-                                                               @RequestParam(required = false, defaultValue = "5") int size
-    ) {
-        return new ResponseEntity<>(releaseService.findByPrice(price, page, size), HttpStatus.OK);
-    }
+//    @GetMapping("byPrice/{price}")
+//    public ResponseEntity<List<ReleaseDto>> getReleaseByPrice(@PathVariable("price") Double price,
+//                                                               @RequestParam(required = false, defaultValue = "0") int page,
+//                                                               @RequestParam(required = false, defaultValue = "5") int size
+//    ) {
+//        return new ResponseEntity<>(releaseService.findByPrice(price, page, size), HttpStatus.OK);
+//    }
 
     @PostMapping()
     public ResponseEntity<ReleaseDto> createRelease(@RequestBody ReleaseCreateDto release) {

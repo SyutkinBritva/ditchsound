@@ -79,6 +79,12 @@ public class Release {
     @Column (name = "music_label")
     private String musicLabel;
 
+    @Column (name = "total_amount")
+    private double totalAmount;
+
+    @Column (name = "total_amount_with_discount")
+    private double totalAmountWithDiscount;
+
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Drums> drumsList;
 

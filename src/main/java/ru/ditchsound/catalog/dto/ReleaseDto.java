@@ -21,7 +21,7 @@ public class ReleaseDto {
     @Schema(description = "имя исполнителя")
     private String bandName;
 
-    @Schema(description = "жанр")
+    @Schema(description = "жанр релиза")
     private GenreEnum genre;
 
     @Schema(description = "статус работы")
@@ -30,6 +30,12 @@ public class ReleaseDto {
     @Schema(description = "какую работу выполняет инженер")
     private WorkDescription[] workDescription;
 
-    @Schema(description = "цена за релиз")
+    @Schema(description = "общая сумма за релиз")
+    private double totalAmount;
+
+    @Schema(description = "общая сумма за релиз со скидкой")
+    private double totalAmountWithDiscount;
+
+    @Schema(description = "стоимость")
     private PriceDto priceDto;
 }

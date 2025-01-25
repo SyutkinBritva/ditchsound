@@ -1,16 +1,16 @@
 package ru.ditchsound.catalog.service;
 
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ru.ditchsound.catalog.dto.ReleaseDto;
 import ru.ditchsound.catalog.dto.createDTO.ReleaseCreateDto;
 import ru.ditchsound.catalog.enums.GenreEnum;
+import ru.ditchsound.catalog.enums.ReleaseStatus;
 import ru.ditchsound.catalog.mappers.ReleaseMapper;
-import ru.ditchsound.catalog.mappers.createMappers.CreateReleaseMapper;
 import ru.ditchsound.catalog.model.Price;
 import ru.ditchsound.catalog.model.Release;
 import ru.ditchsound.catalog.repository.PriceRepository;
@@ -19,30 +19,29 @@ import ru.ditchsound.catalog.repository.ReleaseRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-///
-
 @Service
 public class ReleaseServiceImpl implements ReleaseService {
 
     private final ReleaseRepository releaseRepository;
+
     private final ReleaseMapper releaseMapper;
-    private final CreateReleaseMapper createReleaseMapper;
-    private final PriceRepository priceRepository;
 
+    private final PriceServiceImpl priceService;
 
-    public ReleaseServiceImpl(ReleaseRepository releaseRepository, ReleaseMapper releaseMapper, CreateReleaseMapper createReleaseMapper, PriceRepository priceRepository) {
+    public ReleaseServiceImpl(ReleaseRepository releaseRepository,
+                              ReleaseMapper releaseMapper,
+                              PriceRepository priceRepository, PriceServiceImpl priceService) {
+
         this.releaseRepository = releaseRepository;
         this.releaseMapper = releaseMapper;
-        this.createReleaseMapper = createReleaseMapper;
-        this.priceRepository = priceRepository;
+        this.priceService = priceService;
     }
-
 
     @Transactional(readOnly = true)
     public ReleaseDto findById(Long id) {
 
-        Release release = releaseRepository.findById(id).orElseThrow(
-                () -> new RuntimeException(String.format("в базе нету релиза с переданным id %s", id)));
+        Release release = releaseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("в базе нету релиза с переданным id %s", id)));
 
         return releaseMapper.toDto(release);
     }
@@ -53,7 +52,8 @@ public class ReleaseServiceImpl implements ReleaseService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Release> releaseList = releaseRepository.findAll(pageable);
         return releaseList.stream()
-                .map(releaseMapper::toDto).collect(Collectors.toList());
+                .map(releaseMapper::toDto)
+                .collect(Collectors.toList());
 
     }
 
@@ -64,29 +64,28 @@ public class ReleaseServiceImpl implements ReleaseService {
         Page<Release> releaseList = releaseRepository
                 .findAllByBandNameIgnoreCase(name, pageable);
         return releaseList.stream().
-                map(releaseMapper::toDto).
-                collect(Collectors.toList());
+                map(releaseMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<ReleaseDto> findByStatus(String status, int page, int size) {
+    public List<ReleaseDto> findByStatus(ReleaseStatus status, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Release> releaseList = releaseRepository
-                .findAllByReleaseStatus(status, pageable);
+        Page<Release> releaseList = releaseRepository.findAllByReleaseStatus(status, pageable);
         return releaseList.stream().
-                map(releaseMapper::toDto).
-                collect(Collectors.toList());
+                map(releaseMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public List<ReleaseDto> findByLabelName(String name, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Release> releasePage = releaseRepository.
-                findAllByMusicLabel(name, pageable);
-        return releasePage.stream().map(releaseMapper::toDto).
-                collect(Collectors.toList());
+        Page<Release> releasePage = releaseRepository.findAllByMusicLabel(name, pageable);
+        return releasePage.stream()
+                .map(releaseMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -100,26 +99,29 @@ public class ReleaseServiceImpl implements ReleaseService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<ReleaseDto> findByPrice(Double price, int page, int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Release> releasePage = releaseRepository.findAllByPriceTotalAmount(price, pageable);
-        return releasePage
-                .stream()
-                .map(releaseMapper::toDto)
-                .collect(Collectors.toList());
-    }
+//    @Transactional(readOnly = true)
+//    public List<ReleaseDto> findByPrice(Double price, int page, int size) {
+//
+//        Pageable pageable = PageRequest.of(page, size);
+//        Page<Release> releasePage = releaseRepository.findAllByPriceTotalAmount(price, pageable);
+//        return releasePage
+//                .stream()
+//                .map(releaseMapper::toDto)
+//                .collect(Collectors.toList());
+//    }
 
     @Transactional
     public ReleaseDto createRelease(ReleaseCreateDto releaseCreateDto) {
 
-        Release release = createReleaseMapper.toEntity(releaseCreateDto);
-        Price price = createReleaseMapper.relesaseDtoToPrice(releaseCreateDto);
+        Release release = releaseMapper.toEntity(releaseCreateDto);
+        Price price = releaseMapper.PriceDtoToEntity(releaseCreateDto.getPriceDto());
 
         // Установить связь между сущностями
         price.setRelease(release);
         release.setPrice(price);
+        release.setTotalAmount(priceService.getTotalAmount(price));
+        release.setTotalAmountWithDiscount(priceService
+                .getTotalAmountWithDiscount(price));
 
         // Hibernate сам сохранит обе сущности
         Release saved = releaseRepository.save(release);
@@ -127,7 +129,6 @@ public class ReleaseServiceImpl implements ReleaseService {
         return releaseMapper.toDto(saved);
     }
 }
-
 
 //TODO рабочий вариант для понимания, оставлю тут на память
 //    @Transactional()
@@ -143,7 +144,6 @@ public class ReleaseServiceImpl implements ReleaseService {
 //        priceRepository.save(price);
 //        return saved;
 //    }
-
 
 //TODO почему был стэковерфлоу
 //Ох, кажется, мы столкнулись с каким-то зацикливанием или проблемой сериализации.

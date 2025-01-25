@@ -14,6 +14,25 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class PriceDto {
 
-    @Schema(description = "Total amount of the price")
-    private Double totalAmount;
+    @Schema(description = "стоимость сведения")
+    private Double mixing;
+
+    @Schema(description = "стоимость мастеринга")
+    private Double mastering;
+
+    @Schema(description = "стоимость коррекции барабанов")
+    private Double editingDrums;
+
+    @Schema(description = "стоимость коррекции вокала")
+    private Double editingVocals;
+
+    @Schema(description = "стоимость коррекции других инструментов")
+    private Double editingInstrument;
+
+    @Schema(description = "стоимость продюсирования")
+    private Double producing;
+
+    @Schema(description = "размер скидки")
+    private Double discount;
+
 }

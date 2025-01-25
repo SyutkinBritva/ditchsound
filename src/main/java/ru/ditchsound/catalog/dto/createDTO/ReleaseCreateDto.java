@@ -26,21 +26,21 @@ public class ReleaseCreateDto {
     @Schema(description = "количество песен")
     private Integer countOfTrack;
 
-    @Schema(description = "ссылка на мультитрек")
+    @Schema(description = "ссылка на исходники")
     private String multitrackLink;
 
-    @Schema(description = "дата сдачи")
+    @Schema(description = "дата сдачи проекта")
     private LocalDate endOfWork;
 
-    @Schema(description = "жанр")
+    @Schema(description = "жанр релиза")
     private GenreEnum genre;
 
-    @Schema(description = "какую работу выполняет инженер")
+    @Schema(description = "какие работы выполняет инженер")
     private WorkDescription[] workDescription;
 
     @Schema(description = "статус работы")
     private ReleaseStatus releaseStatus;
 
-    @Schema(description = "общая сумма")
+    @Schema(description = "стоимость")
     private PriceDto priceDto;
 }
