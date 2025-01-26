@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.ditchsound.catalog.dto.ReleaseDto;
-import ru.ditchsound.catalog.dto.createDTO.ReleaseCreateDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseCreateDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseDto;
 import ru.ditchsound.catalog.enums.GenreEnum;
-import ru.ditchsound.catalog.enums.ReleaseStatus;
 import ru.ditchsound.catalog.service.ReleaseService;
 
 import java.util.List;
@@ -46,14 +45,6 @@ public class ReleasesController {
                                                                  @RequestParam(required = false, defaultValue = "5") int size
     ) {
         return new ResponseEntity<>(releaseService.findReleaseByBandName(bandName, page, size), HttpStatus.OK);
-    }
-
-    @GetMapping("byStatus/{status}")
-    public ResponseEntity<List<ReleaseDto>> getReleaseByStatus(@PathVariable("status") ReleaseStatus status,
-                                                               @RequestParam(required = false, defaultValue = "0") int page,
-                                                               @RequestParam(required = false, defaultValue = "5") int size
-    ) {
-        return new ResponseEntity<>(releaseService.findByStatus(status, page, size), HttpStatus.OK);
     }
 
     @GetMapping("byLabelName/{labelName}")

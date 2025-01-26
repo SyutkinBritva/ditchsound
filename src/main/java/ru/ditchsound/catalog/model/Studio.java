@@ -3,7 +3,9 @@ package ru.ditchsound.catalog.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "studio")
+@ToString
 public class Studio {
 
     @Id
@@ -32,21 +35,28 @@ public class Studio {
     @OneToMany(mappedBy = "studio"
             , cascade = CascadeType.ALL
             , orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Instrument> instrumentList;
 
     @OneToMany(mappedBy = "studio"
             , cascade = CascadeType.ALL
             , orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Guitar> guitarList;
 
-    @OneToMany(mappedBy = "studio"
-            , cascade = CascadeType.ALL
-            , orphanRemoval = true)
-    private List<Drums> drumsList;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "drums_id", nullable = false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Drums drums;
 
     @OneToMany(mappedBy = "studio"
             , cascade = CascadeType.ALL
             , orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Vocal> vocalsList;
 
 }

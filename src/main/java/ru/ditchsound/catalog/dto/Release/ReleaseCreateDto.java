@@ -1,4 +1,4 @@
-package ru.ditchsound.catalog.dto.createDTO;
+package ru.ditchsound.catalog.dto.Release;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import ru.ditchsound.catalog.dto.PriceDto;
+import ru.ditchsound.catalog.dto.Price.PriceDto;
 import ru.ditchsound.catalog.enums.GenreEnum;
 import ru.ditchsound.catalog.enums.ReleaseStatus;
 import ru.ditchsound.catalog.enums.WorkDescription;

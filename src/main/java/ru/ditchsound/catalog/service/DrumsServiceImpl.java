@@ -5,11 +5,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ditchsound.catalog.dto.DrumsDto;
+import ru.ditchsound.catalog.dto.Drums.DrumsDto;
 import ru.ditchsound.catalog.mappers.DrumsMapper;
 import ru.ditchsound.catalog.model.Drums;
+import ru.ditchsound.catalog.model.Release;
+import ru.ditchsound.catalog.model.Studio;
 import ru.ditchsound.catalog.repository.DrumsRepository;
+import ru.ditchsound.catalog.repository.ReleaseRepository;
+import ru.ditchsound.catalog.repository.StudioRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,10 +22,14 @@ import java.util.stream.Collectors;
 public class DrumsServiceImpl implements DrumsService {
 
     private final DrumsRepository drumsRepository;
+    private final ReleaseRepository releaseRepository;
+    private final StudioRepository studioRepository;
     private final DrumsMapper drumsMapper;
 
-    public DrumsServiceImpl(DrumsRepository drumsRepository, DrumsMapper drumsMapper) {
+    public DrumsServiceImpl(DrumsRepository drumsRepository, ReleaseRepository releaseRepository, StudioRepository studioRepository, DrumsMapper drumsMapper) {
         this.drumsRepository = drumsRepository;
+        this.releaseRepository = releaseRepository;
+        this.studioRepository = studioRepository;
         this.drumsMapper = drumsMapper;
     }
 
@@ -71,11 +80,33 @@ public class DrumsServiceImpl implements DrumsService {
                 collect(Collectors.toList());
     }
 
-    //TODO исправить return type с Entity на DTO
+    @Transactional
+    public DrumsDto createDrums (DrumsDto drumsDto) {
 
-    public Drums createDrums (DrumsDto drumsDto) {
         Drums drums = drumsMapper.toEntity(drumsDto);
-        return drumsRepository.saveAndFlush(drums);
+
+        Release release = releaseRepository.findByBandName(drumsDto.getReleaseDto()
+                .getBandName()).orElseThrow(() ->
+                new EntityNotFoundException("Не найден релиз группы: "
+                        + drumsDto.getReleaseDto().getBandName()));
+
+        Studio studio = studioRepository.findStudioByStudioName
+                (drumsDto.getStudioDto().getStudioName()).orElseGet(() -> {
+                    Studio newStudio = drumsMapper.toStudioEntity(drumsDto.getStudioDto());
+                    return studioRepository.save(newStudio);
+        });
+
+        drums.setStudio(studio);
+        drums.setRelease(release);
+        studio.setDrums(drums);
+
+        release.setDrumsList(drums.getRelease().getDrumsList());
+
+
+        // Сохраняем инструмент
+        Drums savedDrums = drumsRepository.saveAndFlush(drums);
+        return drumsMapper.toDto(savedDrums);
+
     }
 
 }

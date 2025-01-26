@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ditchsound.catalog.dto.InstrumentDto;
+import ru.ditchsound.catalog.dto.Instrument.InstrumentDto;
 import ru.ditchsound.catalog.mappers.InstrumentMapper;
 import ru.ditchsound.catalog.model.Instrument;
 import ru.ditchsound.catalog.repository.InstrumentRepository;

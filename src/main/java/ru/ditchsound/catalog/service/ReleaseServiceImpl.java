@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.ditchsound.catalog.dto.ReleaseDto;
-import ru.ditchsound.catalog.dto.createDTO.ReleaseCreateDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseCreateDto;
 import ru.ditchsound.catalog.enums.GenreEnum;
 import ru.ditchsound.catalog.enums.ReleaseStatus;
 import ru.ditchsound.catalog.mappers.ReleaseMapper;
@@ -69,16 +69,6 @@ public class ReleaseServiceImpl implements ReleaseService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReleaseDto> findByStatus(ReleaseStatus status, int page, int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Release> releaseList = releaseRepository.findAllByReleaseStatus(status, pageable);
-        return releaseList.stream().
-                map(releaseMapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
     public List<ReleaseDto> findByLabelName(String name, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
@@ -116,10 +106,12 @@ public class ReleaseServiceImpl implements ReleaseService {
         Release release = releaseMapper.toEntity(releaseCreateDto);
         Price price = releaseMapper.PriceDtoToEntity(releaseCreateDto.getPriceDto());
 
+        //todo тут будет инжектится и вызываться drumServiceImpl.getOrCreateNew(...), guitarServiceImpl.getOrCreateNew()
+
         // Установить связь между сущностями
-        price.setRelease(release);
-        release.setPrice(price);
-        release.setTotalAmount(priceService.getTotalAmount(price));
+//        price.setRelease(release);
+//        release.setPrice(price);
+//        release.setTotalAmount(priceService.getTotalAmount(price));
         release.setTotalAmountWithDiscount(priceService
                 .getTotalAmountWithDiscount(price));
 

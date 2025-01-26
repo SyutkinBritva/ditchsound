@@ -4,7 +4,7 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ru.ditchsound.catalog.dto.GuitarDto;
+import ru.ditchsound.catalog.dto.Guitar.GuitarDto;
 import ru.ditchsound.catalog.model.Guitar;
 
 @Mapper(componentModel = "spring", uses = { ReleaseMapper.class, StudioMapper.class })

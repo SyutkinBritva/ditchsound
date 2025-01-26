@@ -1,4 +1,4 @@
-package ru.ditchsound.catalog.dto;
+package ru.ditchsound.catalog.dto.Instrument;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import ru.ditchsound.catalog.dto.Release.ReleaseDto;
+import ru.ditchsound.catalog.dto.Studio.StudioDto;
 
 @Data
 @Builder

@@ -2,16 +2,27 @@ package ru.ditchsound.catalog.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "price")
+@ToString
 public class Price {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long priceId;
@@ -37,7 +48,10 @@ public class Price {
     @Column (name = "discount")
     private Double discount;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "release_id", nullable = false)
-    private Release release;
+    @OneToOne()
+    @JoinColumn(name = "request_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Request request;
+
 }

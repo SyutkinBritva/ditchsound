@@ -1,4 +1,4 @@
-package ru.ditchsound.catalog.dto;
+package ru.ditchsound.catalog.dto.Price;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
