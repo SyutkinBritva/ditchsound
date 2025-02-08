@@ -6,26 +6,21 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "price")
-@ToString
-public class Price {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long priceId;
+@AttributeOverride(name = "id", column = @Column(name = "price_id"))
+public class Price extends  BaseEntity {
 
     @Column (name = "mixing")
     private Double mixing;
@@ -33,14 +28,8 @@ public class Price {
     @Column (name = "mastering")
     private Double mastering;
 
-    @Column (name = "editing_drums")
-    private Double editingDrums;
-
-    @Column (name = "editing_vocals")
-    private Double editingVocals;
-
-    @Column (name = "editing_other_instr")
-    private Double editingInstrument;
+    @Column (name = "editing")
+    private Double editing;
 
     @Column (name = "producing")
     private Double producing;

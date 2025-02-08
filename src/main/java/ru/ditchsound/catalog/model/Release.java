@@ -12,12 +12,10 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.TypeDef;
 import ru.ditchsound.catalog.enums.WorkDescription;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -25,6 +23,7 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,12 +39,8 @@ import java.util.List;
         )
         }
 )
-@ToString
-public class Release {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long releaseId;
+@AttributeOverride(name = "id", column = @Column(name = "release_id"))
+public class Release extends BaseEntity {
 
     @Column(name = "band_name")
     private String bandName; // надо и тут и в заявке
@@ -65,12 +60,8 @@ public class Release {
     @Column(name = "music_label")
     private String musicLabel;
 
-    @Column(name = "total_amount_with_discount")
-    private double totalAmountWithDiscount; // нужно удалить
-
     @Column(name = "genre")
     private String genre;
-
 
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude

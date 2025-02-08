@@ -5,11 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.ditchsound.catalog.enums.WorkDescription;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestDto {
+public class RequestApprovedDto {
+
+    @Schema(description = "Стоимость услуг")
+    private double totalAmount;
 
     @Schema(description = "имя заявки, уникальное", example = "Заявка №1")
     private String requestName;

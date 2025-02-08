@@ -10,21 +10,20 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.TypeDef;
-import ru.ditchsound.catalog.enums.ReleaseStatus;
+import ru.ditchsound.catalog.enums.RequestStatus;
 import ru.ditchsound.catalog.enums.WorkDescription;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,12 +39,11 @@ import java.time.LocalDate;
         )
         }
 )
-@ToString
-public class Request {
+@AttributeOverride(name = "id", column = @Column(name = "request_id"))// используем старое название id
+public class Request extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long requestId;
+    @Column(name = "request_name")
+    private String requestName;
 
     @Column(name = "band_name")
     private String bandName;
@@ -74,7 +72,7 @@ public class Request {
     @Enumerated(EnumType.STRING)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private ReleaseStatus releaseStatus;
+    private RequestStatus requestStatus;
 
     @OneToOne(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude

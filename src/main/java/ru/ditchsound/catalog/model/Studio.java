@@ -10,18 +10,15 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "studio")
-@ToString
-public class Studio {
-
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long studioId;
+@AttributeOverride(name = "id", column = @Column(name = "studio_id"))
+public class Studio extends BaseEntity {
 
     @Column (name = "studio_name")
     private String studioName;

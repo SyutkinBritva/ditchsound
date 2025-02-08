@@ -7,18 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "drums")
-@ToString
-public class Drums {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long drumsId;
+@AttributeOverride(name = "id", column = @Column(name = "drums_id"))
+public class Drums extends BaseEntity {
 
     @Column(name = "drums_type")
     private String drumsType;

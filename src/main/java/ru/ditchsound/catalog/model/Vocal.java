@@ -8,17 +8,14 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "vocal")
-@ToString
-public class Vocal {
-
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long vocalId;
+@AttributeOverride(name = "id", column = @Column(name = "vocal_id"))
+public class Vocal extends BaseEntity {
 
     @Column(name = "vocal_type")
     private String vocalType;

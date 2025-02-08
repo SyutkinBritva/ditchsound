@@ -10,12 +10,8 @@ import javax.persistence.*;
 @Entity
 @Builder
 @Table(name = "guitar")
-@ToString
-public class Guitar {
-
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long guitarId;
+@AttributeOverride(name = "id", column = @Column(name = "guitar_id"))
+public class Guitar extends BaseEntity {
 
     @Column (name = "guitar_type")
     private String guitarType;

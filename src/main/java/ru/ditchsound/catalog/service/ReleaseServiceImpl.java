@@ -5,17 +5,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import ru.ditchsound.catalog.dto.Release.ReleaseDto;
 import ru.ditchsound.catalog.dto.Release.ReleaseCreateDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseDto;
 import ru.ditchsound.catalog.enums.GenreEnum;
-import ru.ditchsound.catalog.enums.ReleaseStatus;
+import ru.ditchsound.catalog.mappers.DrumsMapper;
 import ru.ditchsound.catalog.mappers.ReleaseMapper;
-import ru.ditchsound.catalog.model.Price;
+import ru.ditchsound.catalog.model.Drums;
 import ru.ditchsound.catalog.model.Release;
-import ru.ditchsound.catalog.repository.PriceRepository;
+import ru.ditchsound.catalog.model.Request;
+import ru.ditchsound.catalog.repository.DrumsRepository;
 import ru.ditchsound.catalog.repository.ReleaseRepository;
+import ru.ditchsound.catalog.repository.RequestRepository;
+import ru.ditchsound.catalog.repository.StudioRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,15 +29,27 @@ public class ReleaseServiceImpl implements ReleaseService {
 
     private final ReleaseMapper releaseMapper;
 
-    private final PriceServiceImpl priceService;
+    private final DrumsService drumsService;
+
+    private final DrumsRepository drumsRepository;
+
+    private final RequestRepository requestRepository;
+
+    private final StudioRepository studioRepository;
+
+    private final DrumsMapper drumsMapper;
 
     public ReleaseServiceImpl(ReleaseRepository releaseRepository,
                               ReleaseMapper releaseMapper,
-                              PriceRepository priceRepository, PriceServiceImpl priceService) {
+                              DrumsService drumsService, DrumsRepository drumsRepository, RequestRepository requestRepository, StudioRepository studioRepository, DrumsMapper drumsMapper) {
 
         this.releaseRepository = releaseRepository;
         this.releaseMapper = releaseMapper;
-        this.priceService = priceService;
+        this.drumsService = drumsService;
+        this.drumsRepository = drumsRepository;
+        this.requestRepository = requestRepository;
+        this.studioRepository = studioRepository;
+        this.drumsMapper = drumsMapper;
     }
 
     @Transactional(readOnly = true)
@@ -104,7 +119,27 @@ public class ReleaseServiceImpl implements ReleaseService {
     public ReleaseDto createRelease(ReleaseCreateDto releaseCreateDto) {
 
         Release release = releaseMapper.toEntity(releaseCreateDto);
-        Price price = releaseMapper.PriceDtoToEntity(releaseCreateDto.getPriceDto());
+
+        Request request = requestRepository
+                .findByRequestName(releaseCreateDto.getRequestDto().getRequestName())
+                .orElseThrow(() -> new EntityNotFoundException("Заявка не найдена"));
+
+        List<Drums> drumsList = releaseMapper.listDrumsDTOsToEntities(releaseCreateDto.getDrumsDto());
+
+        for(Drums drum:drumsList){
+            drum.setRelease(release);
+            if (drum.getStudio() != null) {
+                drum.getStudio().setDrums(drum); // ✅ Устанавливаем обратную связь Studio → Drums
+            }
+        }
+
+        release.setRequest(request);
+
+        release.setDrumsList(drumsList);
+
+        Release savedRelease = releaseRepository.save(release);
+
+        return releaseMapper.toDto(savedRelease);
 
         //todo тут будет инжектится и вызываться drumServiceImpl.getOrCreateNew(...), guitarServiceImpl.getOrCreateNew()
 
@@ -112,13 +147,10 @@ public class ReleaseServiceImpl implements ReleaseService {
 //        price.setRelease(release);
 //        release.setPrice(price);
 //        release.setTotalAmount(priceService.getTotalAmount(price));
-        release.setTotalAmountWithDiscount(priceService
-                .getTotalAmountWithDiscount(price));
+//        release.setTotalAmountWithDiscount(priceService
+//                .getTotalAmountWithDiscount(price));
 
-        // Hibernate сам сохранит обе сущности
-        Release saved = releaseRepository.save(release);
 
-        return releaseMapper.toDto(saved);
     }
 }
 
@@ -128,7 +160,7 @@ public class ReleaseServiceImpl implements ReleaseService {
 //        Release unsaved = createReleaseMapper.toEntity(releaseCreateDto);
 //        //из маппера сконвертировали релиз, но он без PK, потому что ещё не сохранен в БД
 //        Price price = createReleaseMapper.relesaseDtoToPrice(releaseCreateDto);
-//        // на 110 строке мы сохраняем релиз в БД и он возвращает сущность уже с PK
+//        // сохраняем релиз в БД и он возвращает сущность уже с PK
 //        Release saved = releaseRepository.save(unsaved);
 //        //после получения PK мы можем установить связь между ценой и релизом (112 строчка)
 //        price.setRelease(saved);

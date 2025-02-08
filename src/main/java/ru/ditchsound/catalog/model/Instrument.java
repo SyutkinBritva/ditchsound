@@ -8,17 +8,14 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "instrument")
-@ToString
-public class Instrument {
-
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long instrumentId;
+@AttributeOverride(name = "id", column = @Column(name = "instrument_id"))
+public class Instrument extends BaseEntity {
 
     @Column (name = "instrument_type")
     private String instrumentType;
