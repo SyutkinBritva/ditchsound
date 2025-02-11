@@ -1,9 +1,8 @@
 package ru.ditchsound.catalog.service;
 
-import ru.ditchsound.catalog.dto.ReleaseDto;
-import ru.ditchsound.catalog.dto.createDTO.ReleaseCreateDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseCreateDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseDto;
 import ru.ditchsound.catalog.enums.GenreEnum;
-import ru.ditchsound.catalog.enums.ReleaseStatus;
 
 import java.util.List;
 
@@ -22,11 +21,6 @@ public interface ReleaseService {
      * поиск релиза по имени исполнителя
      **/
     List<ReleaseDto> findReleaseByBandName(String name, int page, int size);
-
-    /**
-     * поиск релиза по статусу
-     **/
-    List<ReleaseDto> findByStatus(ReleaseStatus status, int page, int size);
 
     /**
      * поиск релиза по названию лейбла

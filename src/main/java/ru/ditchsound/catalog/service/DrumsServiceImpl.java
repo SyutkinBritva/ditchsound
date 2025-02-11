@@ -5,11 +5,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ditchsound.catalog.dto.DrumsDto;
+import ru.ditchsound.catalog.dto.Drums.DrumsDto;
+import ru.ditchsound.catalog.dto.Studio.StudioDto;
 import ru.ditchsound.catalog.mappers.DrumsMapper;
+import ru.ditchsound.catalog.mappers.ReleaseMapper;
 import ru.ditchsound.catalog.model.Drums;
+import ru.ditchsound.catalog.model.Release;
+import ru.ditchsound.catalog.model.Studio;
 import ru.ditchsound.catalog.repository.DrumsRepository;
+import ru.ditchsound.catalog.repository.ReleaseRepository;
+import ru.ditchsound.catalog.repository.StudioRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,22 +24,28 @@ import java.util.stream.Collectors;
 public class DrumsServiceImpl implements DrumsService {
 
     private final DrumsRepository drumsRepository;
+    private final ReleaseRepository releaseRepository;
+    private final StudioRepository studioRepository;
     private final DrumsMapper drumsMapper;
+    private final ReleaseMapper releaseMapper;
 
-    public DrumsServiceImpl(DrumsRepository drumsRepository, DrumsMapper drumsMapper) {
+    public DrumsServiceImpl(DrumsRepository drumsRepository, ReleaseRepository releaseRepository, StudioRepository studioRepository, DrumsMapper drumsMapper, ReleaseMapper releaseMapper) {
         this.drumsRepository = drumsRepository;
+        this.releaseRepository = releaseRepository;
+        this.studioRepository = studioRepository;
         this.drumsMapper = drumsMapper;
+        this.releaseMapper = releaseMapper;
     }
 
     @Transactional(readOnly = true)
-    public DrumsDto findDrumsById(Long id){
+    public DrumsDto findDrumsById(Long id) {
         Drums drums = drumsRepository.findById(id).orElseThrow(
                 () -> new RuntimeException(String.format("в базе нет барабанов с переданным id %s", id)));
         return drumsMapper.toDto(drums);
     }
 
     @Transactional(readOnly = true)
-    public List<DrumsDto> findAllDrums(int pageNumber, int pageSize){
+    public List<DrumsDto> findAllDrums(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.findAll(pageable);
         return drums.stream().
@@ -42,7 +55,7 @@ public class DrumsServiceImpl implements DrumsService {
 
 
     @Transactional(readOnly = true)
-    public List<DrumsDto> findDrumsByStudio (String name, int pageNumber, int pageSize){
+    public List<DrumsDto> findDrumsByStudio(String name, int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.
                 findAllByStudioStudioNameIgnoreCase(name, pageable);
@@ -53,7 +66,7 @@ public class DrumsServiceImpl implements DrumsService {
 
 
     @Transactional(readOnly = true)
-    public List<DrumsDto> findDrumsByBandName(String bandName, int pageNumber, int pageSize){
+    public List<DrumsDto> findDrumsByBandName(String bandName, int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.
                 findAllByReleaseBandNameIgnoreCase(bandName, pageable);
@@ -63,7 +76,7 @@ public class DrumsServiceImpl implements DrumsService {
     }
 
     @Transactional(readOnly = true)
-    public List<DrumsDto> findDrumsByType(String drumType, int pageNumber, int pageSize){
+    public List<DrumsDto> findDrumsByType(String drumType, int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Drums> drums = drumsRepository.findAllByDrumsType(drumType, pageable);
         return drums.stream().
@@ -71,11 +84,58 @@ public class DrumsServiceImpl implements DrumsService {
                 collect(Collectors.toList());
     }
 
-    //TODO исправить return type с Entity на DTO
+    @Transactional
+    public DrumsDto createDrums(DrumsDto drumsDto) {
 
-    public Drums createDrums (DrumsDto drumsDto) {
         Drums drums = drumsMapper.toEntity(drumsDto);
-        return drumsRepository.saveAndFlush(drums);
+
+        Release release = releaseRepository.findByBandName(drumsDto.getReleaseDto()
+                .getBandName()).orElseThrow(() ->
+                new EntityNotFoundException("Не найден релиз группы: "
+                        + drumsDto.getReleaseDto().getBandName()));
+
+        Studio studio = studioRepository.findStudioByStudioName
+                (drumsDto.getStudioDto().getStudioName()).orElseGet(() -> {
+            Studio newStudio = drumsMapper.toStudioEntity(drumsDto.getStudioDto());
+            return studioRepository.save(newStudio);
+        });
+
+        drums.setStudio(studio);
+        drums.setRelease(release);
+        studio.setDrums(drums);
+
+        release.setDrumsList(drums.getRelease().getDrumsList());
+
+        // Сохраняем инструмент
+        Drums savedDrums = drumsRepository.saveAndFlush(drums);
+        return drumsMapper.toDto(savedDrums);
+
     }
 
+    @Override
+    public Studio getOrCreateStudio(StudioDto studioDto, Drums drums) {
+        if (studioDto == null) {
+            throw new IllegalArgumentException("StudioDto не может быть Null");
+        }
+
+        if (studioRepository == null) {
+            throw new IllegalStateException("StudioRepository не инициализирована");
+        }
+        return studioRepository.findStudioByStudioName(studioDto.getStudioName())
+                .orElseGet(() -> {
+                    Studio newStudio = new Studio();
+                    newStudio.setStudioName(studioDto.getStudioName());
+
+                    // Устанавливаем связь с Drums
+                    newStudio.setDrums(drums);
+                    if (drums != null) {
+                        drums.setStudio(newStudio);
+                    }
+
+                    return studioRepository.save(newStudio);
+                });
+    }
+
+
 }
+

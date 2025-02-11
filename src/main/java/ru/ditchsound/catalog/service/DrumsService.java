@@ -1,7 +1,9 @@
 package ru.ditchsound.catalog.service;
 
-import ru.ditchsound.catalog.dto.DrumsDto;
+import ru.ditchsound.catalog.dto.Drums.DrumsDto;
+import ru.ditchsound.catalog.dto.Studio.StudioDto;
 import ru.ditchsound.catalog.model.Drums;
+import ru.ditchsound.catalog.model.Studio;
 
 import java.util.List;
 /** Сервис инструмента Drums **/
@@ -23,5 +25,7 @@ public interface DrumsService {
     /** поиск всех drums инструментов по типу**/
     List<DrumsDto> findDrumsByType(String type, int page, int size);
     //TODO исправить return type с Entity на DTO
-    Drums createDrums (DrumsDto drumsDto);
+    DrumsDto createDrums (DrumsDto drumsDto);
+
+    Studio getOrCreateStudio(StudioDto studioDto, Drums drums);
 }
