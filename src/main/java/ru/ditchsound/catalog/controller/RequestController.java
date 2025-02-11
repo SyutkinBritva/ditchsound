@@ -42,8 +42,8 @@ public class RequestController {
     }
 
     @PutMapping("/{id}/approve")
-    public ResponseEntity<RequestApprovedDto> approveRequest(@PathVariable Long id){
-        return  ResponseEntity.ok(requestService.approveRequest(id));
+    public ResponseEntity<RequestApprovedDto> approveRequest(@PathVariable Long id,@RequestParam  Double discount){
+        return  ResponseEntity.ok(requestService.approveRequest(id, discount));
     }
 
 }

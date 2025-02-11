@@ -1,6 +1,7 @@
 package ru.ditchsound.catalog.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.ditchsound.catalog.enums.WorkDescription;
 import ru.ditchsound.catalog.model.Price;
 import ru.ditchsound.catalog.model.Request;
@@ -17,15 +18,24 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public Double getTotalAmount(WorkDescription[] workDescriptions) {
-        return Arrays.stream(workDescriptions)
+    @Transactional
+    public Double getTotalAmount(WorkDescription[] workDescriptions,
+                                 Double discount,
+                                 Integer countOfTrack) {
+
+        double total = Arrays.stream(workDescriptions)
                 .mapToDouble(WorkDescription::getPrice)
                 .sum();
+
+        return total * (1 - discount) * countOfTrack;
     }
 
     @Override
-    public Price createPriceFromWorkDescription(Request request) {
+    @Transactional
+    public Price createPriceFromWorkDescription(Request request, Double discount) {
+
         Price price = new Price();
+
         for (WorkDescription work : request.getWorkDescription()) {
             switch (work) {
                 case MIXING -> price.setMixing(work.getPrice());
@@ -35,8 +45,14 @@ public class PriceServiceImpl implements PriceService {
 
             }
         }
+
+        if (discount < 0 || discount > 0.5) {
+            throw new RuntimeException("Скидка должна быть в пределах от 0% до 50%");
+        }
+        price.setDiscount(discount);
         price.setRequest(request); // Привязываем к заявке
         return priceRepository.save(price);
     }
+
 }
 

@@ -10,6 +10,9 @@ import ru.ditchsound.catalog.enums.WorkDescription;
 @NoArgsConstructor
 public class RequestApprovedDto {
 
+    @Schema(description = "id заявки")
+    private Long id;
+
     @Schema(description = "Стоимость услуг")
     private double totalAmount;
 

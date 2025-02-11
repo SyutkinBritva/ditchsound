@@ -14,5 +14,5 @@ public interface RequestService {
 
     RequestDto createRequest (RequestDto requestDto);
 
-    RequestApprovedDto approveRequest (Long requestId);
+    RequestApprovedDto approveRequest (Long requestId, Double discount);
 }

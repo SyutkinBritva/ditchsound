@@ -13,6 +13,7 @@ import ru.ditchsound.catalog.mappers.PriceMapper;
 import ru.ditchsound.catalog.mappers.RequestMapper;
 import ru.ditchsound.catalog.model.Price;
 import ru.ditchsound.catalog.model.Request;
+import ru.ditchsound.catalog.repository.PriceRepository;
 import ru.ditchsound.catalog.repository.RequestRepository;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class RequestServiceImpl implements RequestService {
 
     private final RequestRepository requestRepository;
     private final RequestMapper requestMapper;
+    private final PriceRepository priceRepository;
     private final PriceService priceService;
     private final PriceMapper priceMapper;
 
@@ -37,7 +39,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Transactional(readOnly = true)
-    public List<RequestDto> findAllRequests(int page, int size){
+    public List<RequestDto> findAllRequests(int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<Request> savedRequests = requestRepository.findAll(pageable);
@@ -49,7 +51,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     @Transactional
     public RequestDto createRequest(RequestDto requestDto) {
-        if(requestDto == null) {
+        if (requestDto == null) {
             throw new IllegalArgumentException("Заявка пришла пустой");
         }
         Request request = requestMapper.toEntity(requestDto);
@@ -59,18 +61,28 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public RequestApprovedDto approveRequest(Long requestId) {
+    @Transactional
+    public RequestApprovedDto approveRequest(Long requestId, Double discount) {
 
-        Request entity = requestRepository.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Заявка не была найдена"));
+        Request entity = requestRepository
+                .findByIdAndRequestStatus(requestId, RequestStatus.CREATED)
+                .orElseThrow(() -> new RuntimeException("заявка не найдена"));
 
-        if(!entity.getRequestStatus().equals(RequestStatus.CREATED)){
-            throw new RuntimeException("Статус заявки не соответствует условиям");
-        }
+        Price price = priceRepository.findByRequestId(entity.getId())
+                .orElseGet(() -> {
+                    Price newPrice = priceService.createPriceFromWorkDescription(entity, discount);
+                    newPrice.setRequest(entity); // Связываем Price с Request
+                    return priceRepository.save(newPrice);
+                });
 
-        Double totalAmount = priceService.getTotalAmount(entity.getWorkDescription());
+        entity.setPrice(price);
+        requestRepository.save(entity);
 
-        Price price = priceService.createPriceFromWorkDescription(entity);
+        Double totalAmount = priceService.getTotalAmount(
+                entity.getWorkDescription(),
+                entity.getPrice().getDiscount(),
+                entity.getCountOfTrack());
+
 
         entity.setRequestStatus(RequestStatus.APPROVED);
         entity.setTotalAmount(totalAmount);

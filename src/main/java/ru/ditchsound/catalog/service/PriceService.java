@@ -6,8 +6,8 @@ import ru.ditchsound.catalog.model.Request;
 
 public interface PriceService {
 
-    Double getTotalAmount(WorkDescription[] workDescription);
+    Double getTotalAmount(WorkDescription[] workDescription, Double discount, Integer countOfTrack);
 
-    Price createPriceFromWorkDescription(Request request);
+    Price createPriceFromWorkDescription(Request request, Double discount);
 
 }

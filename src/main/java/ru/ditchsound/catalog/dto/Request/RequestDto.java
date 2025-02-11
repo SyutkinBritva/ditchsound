@@ -11,6 +11,9 @@ import ru.ditchsound.catalog.enums.WorkDescription;
 @NoArgsConstructor
 public class RequestDto {
 
+    @Schema(description = "id заявки")
+    private Long id;
+
     @Schema(description = "имя заявки, уникальное", example = "Заявка №1")
     private String requestName;
 

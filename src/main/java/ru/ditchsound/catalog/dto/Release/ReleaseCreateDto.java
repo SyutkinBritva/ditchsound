@@ -49,13 +49,4 @@ public class ReleaseCreateDto {
     @Schema(description = "заявка")
     private RequestDto requestDto;
 
-
-//    @Schema(description = "гитары")
-//    private List<GuitarDto> guitarDto;
-//
-//    @Schema(description = "вокалы")
-//    private List<VocalDto> vocalDto;
-//
-//    @Schema(description = "инструменты")
-//    private List<InstrumentDto> instrumentDto;
 }
