@@ -68,12 +68,9 @@ public class RequestServiceImpl implements RequestService {
                 .findByIdAndRequestStatus(requestId, RequestStatus.CREATED)
                 .orElseThrow(() -> new RuntimeException("заявка не найдена"));
 
-        Price price = priceRepository.findByRequestId(entity.getId())
-                .orElseGet(() -> {
-                    Price newPrice = priceService.createPriceFromWorkDescription(entity, discount);
-                    newPrice.setRequest(entity); // Связываем Price с Request
-                    return priceRepository.save(newPrice);
-                });
+        Price price = priceService.createPriceFromWorkDescription(entity, discount);
+        price.setRequest(entity); // Связываем Price с Request
+        priceRepository.save(price);
 
         entity.setPrice(price);
         requestRepository.save(entity);
@@ -82,7 +79,6 @@ public class RequestServiceImpl implements RequestService {
                 entity.getWorkDescription(),
                 entity.getPrice().getDiscount(),
                 entity.getCountOfTrack());
-
 
         entity.setRequestStatus(RequestStatus.APPROVED);
         entity.setTotalAmount(totalAmount);
