@@ -1,63 +1,98 @@
 package ru.ditchsound.catalog.model;
 
+import io.hypersistence.utils.hibernate.type.array.EnumArrayType;
+import io.hypersistence.utils.hibernate.type.array.internal.AbstractArrayType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.TypeDef;
+import ru.ditchsound.catalog.enums.WorkDescription;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Builder
-@Table (name = "release")
-public class Release {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long releaseId;
-    @Column (name = "band_name")
-    private String bandName;
-    @Column (name = "work_description")
-    private String workDescription;
-    @Column (name = "album_cover_link")
+@Table(name = "release")
+@TypeDef(
+        typeClass = EnumArrayType.class,
+        defaultForType = WorkDescription[].class,
+        parameters = {@Parameter(
+                name = AbstractArrayType.SQL_ARRAY_TYPE,
+                value = "work_description"
+        )
+        }
+)
+@AttributeOverride(name = "id", column = @Column(name = "release_id"))
+public class Release extends BaseEntity {
+
+    @Column(name = "band_name")
+    private String bandName; // надо и тут и в заявке
+
+    @Column(name = "album_cover_link")
     private String albumCoverLink;
-    @Column (name = "social_network_link")
+
+    @Column(name = "social_network_link")
     private String socialNetworkLink;
-    @Column (name = "count_of_track")
-    private Integer countOfTrack;
-    @Column (name = "hours_of_work")
-    private Integer hoursOfWork;
-    @Column (name = "release_length")
-    private Double releaseLength;
-    @Column (name = "start_of_work")
-    private LocalDate startOfWork;
-    @Column (name = "end_of_work")
-    private LocalDate endOfWork;
-    @Column (name = "release_dttm")
+
+    @Column(name = "count_of_track")
+    private Integer countOfTrack; // и тут и в поле заявки
+
+    @Column(name = "release_dttm")
     private LocalDate releaseDttm;
-    @Column (name = "release_status")
-    private String releaseStatus;
-    @Column (name = "multitrack_link")
-    private String multitrackLink;
-    @Column (name = "music_label")
+
+    @Column(name = "music_label")
     private String musicLabel;
 
+    @Column(name = "genre")
+    private String genre;
+
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Drums> drumsList;
+
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Guitar> guitarList;
+
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Instrument> instrumentList;
+
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Vocal> vocalList;
 
-    @OneToOne(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Price price;
+    @Column(
+            name = "work_description",
+            columnDefinition = "work_description[]"
+    )
+    private WorkDescription[] workDescription;
 
-    @Enumerated(EnumType.STRING)
-    private GenreEnum genre;
+    @OneToOne
+    @JoinColumn(name = "request_id", nullable = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Request request;
+
 }

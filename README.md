@@ -15,6 +15,12 @@
 7. @Scheduled метод, придумать метод работающий по расписанию/ таймеру
 8. Динамический поиск * (CriteriaQuery)
 
+ЗАДАЧИ 2025:
+1. ReleaseStatus Составить ENUM статусы для Request (IN_QUEUE, APPROVED, DECLINED, PAID, IN_WORK, DONE)
+2. Cделать много узкоспециализированных Dto для Request (CreateNewRequestDto = IN_QUEUE), ApprovedRequestDto = Approved
+3. Для каждого из ДТО возможно потребуются свои ПОСТ контроллеры. Возможно можно будет для трех последних один ендпоинт 
+(ChangeRequestStatus) чтобы просто поменять на DECLINED APPROVED PAID)
+
 
 
 

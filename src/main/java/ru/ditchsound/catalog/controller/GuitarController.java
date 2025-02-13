@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.ditchsound.catalog.dto.GuitarDto;
+import ru.ditchsound.catalog.dto.Guitar.GuitarDto;
 import ru.ditchsound.catalog.service.GuitarService;
 
 import java.util.List;

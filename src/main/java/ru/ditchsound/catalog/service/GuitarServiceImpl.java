@@ -5,8 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ditchsound.catalog.converters.GuitarConverter;
-import ru.ditchsound.catalog.dto.GuitarDto;
+import ru.ditchsound.catalog.dto.Guitar.GuitarDto;
 import ru.ditchsound.catalog.mappers.GuitarMapper;
 import ru.ditchsound.catalog.model.Guitar;
 import ru.ditchsound.catalog.repository.GuitarRepository;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 public class GuitarServiceImpl implements GuitarService  {
     private final GuitarRepository guitarRepository;
     private final GuitarMapper guitarMapper;
-    public GuitarServiceImpl(GuitarRepository guitarRepository, GuitarConverter guitarConverter, GuitarMapper guitarMapper) {
+    public GuitarServiceImpl(GuitarRepository guitarRepository, GuitarMapper guitarMapper) {
         this.guitarRepository = guitarRepository;
         this.guitarMapper = guitarMapper;
     }

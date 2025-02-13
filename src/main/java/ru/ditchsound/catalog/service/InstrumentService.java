@@ -1,6 +1,6 @@
 package ru.ditchsound.catalog.service;
 
-import ru.ditchsound.catalog.dto.InstrumentDto;
+import ru.ditchsound.catalog.dto.Instrument.InstrumentDto;
 
 import java.util.List;
 
