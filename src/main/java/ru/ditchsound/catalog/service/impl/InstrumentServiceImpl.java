@@ -1,4 +1,4 @@
-package ru.ditchsound.catalog.service;
+package ru.ditchsound.catalog.service.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +9,7 @@ import ru.ditchsound.catalog.dto.Instrument.InstrumentDto;
 import ru.ditchsound.catalog.mappers.InstrumentMapper;
 import ru.ditchsound.catalog.model.Instrument;
 import ru.ditchsound.catalog.repository.InstrumentRepository;
+import ru.ditchsound.catalog.service.InstrumentService;
 
 import java.util.List;
 import java.util.stream.Collectors;
