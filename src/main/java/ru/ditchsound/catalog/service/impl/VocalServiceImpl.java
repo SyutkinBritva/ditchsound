@@ -1,4 +1,4 @@
-package ru.ditchsound.catalog.service;
+package ru.ditchsound.catalog.service.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +9,7 @@ import ru.ditchsound.catalog.dto.Vocal.VocalDto;
 import ru.ditchsound.catalog.mappers.VocalMapper;
 import ru.ditchsound.catalog.model.Vocal;
 import ru.ditchsound.catalog.repository.VocalRepository;
+import ru.ditchsound.catalog.service.VocalService;
 
 import java.util.List;
 import java.util.stream.Collectors;

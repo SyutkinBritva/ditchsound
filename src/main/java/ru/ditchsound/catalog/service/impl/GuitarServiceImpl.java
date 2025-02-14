@@ -1,4 +1,4 @@
-package ru.ditchsound.catalog.service;
+package ru.ditchsound.catalog.service.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,12 +9,13 @@ import ru.ditchsound.catalog.dto.Guitar.GuitarDto;
 import ru.ditchsound.catalog.mappers.GuitarMapper;
 import ru.ditchsound.catalog.model.Guitar;
 import ru.ditchsound.catalog.repository.GuitarRepository;
+import ru.ditchsound.catalog.service.GuitarService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class GuitarServiceImpl implements GuitarService  {
+public class GuitarServiceImpl implements GuitarService {
     private final GuitarRepository guitarRepository;
     private final GuitarMapper guitarMapper;
     public GuitarServiceImpl(GuitarRepository guitarRepository, GuitarMapper guitarMapper) {

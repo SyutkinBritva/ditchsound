@@ -1,4 +1,4 @@
-package ru.ditchsound.catalog.service;
+package ru.ditchsound.catalog.service.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +15,7 @@ import ru.ditchsound.catalog.model.Studio;
 import ru.ditchsound.catalog.repository.DrumsRepository;
 import ru.ditchsound.catalog.repository.ReleaseRepository;
 import ru.ditchsound.catalog.repository.StudioRepository;
+import ru.ditchsound.catalog.service.DrumsService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;

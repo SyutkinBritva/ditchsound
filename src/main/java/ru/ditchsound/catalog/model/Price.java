@@ -37,6 +37,9 @@ public class Price extends  BaseEntity {
     @Column (name = "discount")
     private Double discount;
 
+    @Column (name = "number_of_songs")
+    private Integer numberOfSongs;
+
     @OneToOne()
     @JoinColumn(name = "request_id")
     @EqualsAndHashCode.Exclude
