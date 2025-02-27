@@ -40,7 +40,7 @@ public class RequestServiceImpl implements RequestService {
     public RequestDto findRequest(Long id) {
 
         Request savedRequest = requestRepository
-                .getReferenceById(id);
+                .findById(id).orElseThrow(()-> new RuntimeException("объект не найден"));
         return requestMapper.toDto(savedRequest);
     }
 

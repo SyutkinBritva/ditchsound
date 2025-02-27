@@ -2,8 +2,10 @@ package ru.ditchsound.catalog.dto.Request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.ditchsound.catalog.enums.RequestStatus;
 import ru.ditchsound.catalog.enums.WorkDescription;
 
 import java.time.LocalDate;
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class RequestDto {
 
     @Schema(description = "id заявки")
@@ -24,6 +27,9 @@ public class RequestDto {
 
     @Schema(description = "количество треков", example = "5")
     private int countOfTrack;
+
+    @Schema(description = "статус заявки")
+    private RequestStatus requestStatus;
 
     @Schema(description = "какие работы должен выполнить инженер")
     private WorkDescription[] workDescription;

@@ -3,6 +3,7 @@ package ru.ditchsound.catalog.dto.Request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.ditchsound.catalog.enums.RequestStatus;
 import ru.ditchsound.catalog.enums.WorkDescription;
 
 import java.time.LocalDate;
@@ -28,6 +29,9 @@ public class RequestDeclinedDto {
 
     @Schema(description = "дата сдачи релиза")
     private LocalDate deadline;
+
+    @Schema(description = "статус заявки")
+    private RequestStatus requestStatus;
 
     @Schema(description = "ссылка на исходники", example = "www.dropbox.com")
     private String multitrackLink;

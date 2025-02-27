@@ -63,14 +63,6 @@ public class ReleasesController {
         return new ResponseEntity<>(releaseService.findByGenre(genre, page, size), HttpStatus.OK);
     }
 
-//    @GetMapping("byPrice/{price}")
-//    public ResponseEntity<List<ReleaseDto>> getReleaseByPrice(@PathVariable("price") Double price,
-//                                                               @RequestParam(required = false, defaultValue = "0") int page,
-//                                                               @RequestParam(required = false, defaultValue = "5") int size
-//    ) {
-//        return new ResponseEntity<>(releaseService.findByPrice(price, page, size), HttpStatus.OK);
-//    }
-
     @PostMapping()
     public ResponseEntity<ReleaseDto> createRelease(@RequestBody ReleaseCreateDto release) {
         ReleaseDto releaseDto = releaseService.createRelease(release);

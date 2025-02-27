@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.ditchsound.catalog.enums.RequestStatus;
 import ru.ditchsound.catalog.enums.WorkDescription;
 
 import java.time.LocalDate;
@@ -30,6 +31,9 @@ public class RequestApprovedDto {
 
     @Schema(description = "дата сдачи релиза")
     private LocalDate deadline;
+
+    @Schema(description = "статус заявки")
+    private RequestStatus requestStatus;
 
     @Schema(description = "какие работы должен выполнить инженер")
     private WorkDescription[] workDescription;
