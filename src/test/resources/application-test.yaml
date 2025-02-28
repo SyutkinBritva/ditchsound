@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test_db
+    username: test_user
+    password: test_password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate  # или validate, чтобы не менять схему
+    show-sql: true  # Показывает SQL-запросы в логах
+  liquibase:
+    enabled: false  # Если используешь Liquibase

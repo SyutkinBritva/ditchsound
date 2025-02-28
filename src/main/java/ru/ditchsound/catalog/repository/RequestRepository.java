@@ -8,9 +8,10 @@ import java.util.Optional;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
-    Optional<Request> findByBandName(String bandName);
-
     Optional<Request> findByRequestName(String requestName);
 
     Optional<Request> findByIdAndRequestStatus(Long id, RequestStatus status);
+
+    Optional<Request> findByIdAndBandEmailAndRequestStatus(Long id, String email, RequestStatus requestStatus);
+
 }

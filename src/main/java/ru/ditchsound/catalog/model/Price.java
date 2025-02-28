@@ -1,6 +1,7 @@
 package ru.ditchsound.catalog.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "price")
 @AttributeOverride(name = "id", column = @Column(name = "price_id"))
@@ -36,6 +38,9 @@ public class Price extends  BaseEntity {
 
     @Column (name = "discount")
     private Double discount;
+
+    @Column (name = "number_of_songs")
+    private Integer numberOfSongs;
 
     @OneToOne()
     @JoinColumn(name = "request_id")
