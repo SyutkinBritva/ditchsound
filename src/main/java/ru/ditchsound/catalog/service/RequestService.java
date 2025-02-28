@@ -2,10 +2,8 @@ package ru.ditchsound.catalog.service;
 
 
 import ru.ditchsound.catalog.dto.Request.RequestApprovedDto;
-import ru.ditchsound.catalog.dto.Request.RequestCompletedDto;
-import ru.ditchsound.catalog.dto.Request.RequestConfirmedDto;
-import ru.ditchsound.catalog.dto.Request.RequestDeclinedDto;
 import ru.ditchsound.catalog.dto.Request.RequestDto;
+import ru.ditchsound.catalog.dto.Request.RequestStatusUpdateDto;
 
 import java.util.List;
 
@@ -19,9 +17,9 @@ public interface RequestService {
 
     RequestApprovedDto approveRequest (Long requestId, Double discount);
 
-    RequestConfirmedDto confirmPrice (Long requestId);
+    RequestStatusUpdateDto confirmPrice (Long requestId, String email);
 
-    RequestDeclinedDto declineRequest (Long requestId);
+    RequestStatusUpdateDto declineRequest (Long requestId);
 
-    RequestCompletedDto completeRequest (Long requestId);
+    RequestStatusUpdateDto completeRequest (Long requestId);
 }

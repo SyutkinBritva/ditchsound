@@ -12,4 +12,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 
     Optional<Request> findByIdAndRequestStatus(Long id, RequestStatus status);
 
+    Optional<Request> findByIdAndBandEmailAndRequestStatus(Long id, String email, RequestStatus requestStatus);
+
 }

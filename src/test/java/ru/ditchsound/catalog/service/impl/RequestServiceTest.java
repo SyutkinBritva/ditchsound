@@ -6,16 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.ditchsound.catalog.dto.Request.RequestApprovedDto;
-import ru.ditchsound.catalog.dto.Request.RequestCompletedDto;
-import ru.ditchsound.catalog.dto.Request.RequestConfirmedDto;
-import ru.ditchsound.catalog.dto.Request.RequestDeclinedDto;
 import ru.ditchsound.catalog.dto.Request.RequestDto;
+import ru.ditchsound.catalog.dto.Request.RequestStatusUpdateDto;
 import ru.ditchsound.catalog.enums.RequestStatus;
 import ru.ditchsound.catalog.mappers.RequestMapper;
 import ru.ditchsound.catalog.model.Price;
 import ru.ditchsound.catalog.model.Request;
 import ru.ditchsound.catalog.repository.PriceRepository;
 import ru.ditchsound.catalog.repository.RequestRepository;
+import ru.ditchsound.catalog.service.EmailService;
 import ru.ditchsound.catalog.service.PriceService;
 import ru.ditchsound.catalog.service.RequestService;
 import ru.ditchsound.catalog.util.DataUtils;
@@ -120,11 +119,11 @@ class RequestServiceTest {
 
         requestFromDb.setRequestStatus(RequestStatus.APPROVED);
 
-        when(requestRepository.findByIdAndRequestStatus(requestFromDb.getId(), requestFromDb.getRequestStatus()))
+        when(requestRepository.findByIdAndBandEmailAndRequestStatus(requestFromDb.getId(), requestFromDb.getBandEmail(), requestFromDb.getRequestStatus()))
                 .thenReturn(Optional.of(requestFromDb));
 
         //when
-        RequestConfirmedDto result = requestService.confirmPrice(requestFromDb.getId());
+        RequestStatusUpdateDto result = requestService.confirmPrice(requestFromDb.getId(), requestFromDb.getBandEmail());
 
         //then
         assertNotNull(result);
@@ -143,7 +142,7 @@ class RequestServiceTest {
         when(requestRepository.findByIdAndRequestStatus(requestFromDb.getId(), requestFromDb.getRequestStatus()))
                 .thenReturn(Optional.of(requestFromDb));
         //when
-        RequestDeclinedDto result = requestService.declineRequest(requestFromDb.getId());
+        RequestStatusUpdateDto result = requestService.declineRequest(requestFromDb.getId());
 
         //then
         assertNotNull(result);
@@ -163,7 +162,7 @@ class RequestServiceTest {
         when(requestRepository.findByIdAndRequestStatus(requestFromDb.getId(), requestFromDb.getRequestStatus()))
                 .thenReturn(Optional.of(requestFromDb));
         //when
-        RequestCompletedDto result = requestService.completeRequest(requestFromDb.getId());
+        RequestStatusUpdateDto result = requestService.completeRequest(requestFromDb.getId());
 
         //then
         assertNotNull(result);

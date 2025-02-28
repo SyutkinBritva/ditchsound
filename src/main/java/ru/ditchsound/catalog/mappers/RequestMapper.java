@@ -7,6 +7,7 @@ import ru.ditchsound.catalog.dto.Request.RequestCompletedDto;
 import ru.ditchsound.catalog.dto.Request.RequestConfirmedDto;
 import ru.ditchsound.catalog.dto.Request.RequestDeclinedDto;
 import ru.ditchsound.catalog.dto.Request.RequestDto;
+import ru.ditchsound.catalog.dto.Request.RequestStatusUpdateDto;
 import ru.ditchsound.catalog.model.Request;
 
 @Mapper(componentModel = "spring")
@@ -24,4 +25,6 @@ public interface RequestMapper {
     RequestDeclinedDto toDeclinedDto (Request entity);
 
     RequestCompletedDto toCompletedDto (Request entity);
+
+    RequestStatusUpdateDto toStatusUpdateDto (Request entity);
 }

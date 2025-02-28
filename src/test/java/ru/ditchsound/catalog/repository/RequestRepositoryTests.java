@@ -61,6 +61,19 @@ public class RequestRepositoryTests {
         assertThat(receivedRequest.getId()).isEqualTo(1l);
 
     }
+    @Test
+    @DisplayName("тест поиска заявки по id, email и статусу заявки")
+    public void givenRequestCreated_whenFindByIdAndBandEmailAndRequestStatus_thenRequestIsReturned(){
+        //given
+        Request requestToSave = DataUtils.getRequestTransient();
+        requestRepository.save(requestToSave);
+        //when
+        Request receivedRequest = requestRepository.findByIdAndBandEmailAndRequestStatus(requestToSave.getId()
+                , requestToSave.getBandEmail(), requestToSave.getRequestStatus()).orElse(null);
+        //then
+        assertThat(receivedRequest).isNotNull();
+        assertThat(receivedRequest.getId()).isEqualTo(1L);
+    }
 
 
 }

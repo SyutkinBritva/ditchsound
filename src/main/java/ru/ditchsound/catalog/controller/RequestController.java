@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ditchsound.catalog.dto.Request.RequestApprovedDto;
-import ru.ditchsound.catalog.dto.Request.RequestCompletedDto;
-import ru.ditchsound.catalog.dto.Request.RequestConfirmedDto;
-import ru.ditchsound.catalog.dto.Request.RequestDeclinedDto;
 import ru.ditchsound.catalog.dto.Request.RequestDto;
+import ru.ditchsound.catalog.dto.Request.RequestStatusUpdateDto;
 import ru.ditchsound.catalog.service.impl.RequestServiceImpl;
 
 import java.util.List;
@@ -50,17 +48,17 @@ public class RequestController {
     }
 
     @PutMapping("/{id}/confirm-price")
-    public ResponseEntity<RequestConfirmedDto> confirmPrice(@PathVariable Long id){
-        return ResponseEntity.ok(requestService.confirmPrice(id));
+    public ResponseEntity<RequestStatusUpdateDto> confirmPrice(@PathVariable Long id,@RequestParam String email){
+        return ResponseEntity.ok(requestService.confirmPrice(id, email));
     }
 
     @PutMapping("/{id}/decline-request")
-    public ResponseEntity<RequestDeclinedDto> declineRequest(@PathVariable Long id){
+    public ResponseEntity<RequestStatusUpdateDto> declineRequest(@PathVariable Long id){
         return ResponseEntity.ok(requestService.declineRequest(id));
     }
 
     @PutMapping("/{id}/complete-request")
-    public ResponseEntity<RequestCompletedDto> completeRequest(@PathVariable Long id){
+    public ResponseEntity<RequestStatusUpdateDto> completeRequest(@PathVariable Long id){
         return ResponseEntity.ok(requestService.completeRequest(id));
     }
 
