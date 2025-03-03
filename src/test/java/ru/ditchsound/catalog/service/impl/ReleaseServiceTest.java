@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.ditchsound.catalog.dto.Release.ReleaseCreateDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseUpdateDto;
 import ru.ditchsound.catalog.dto.Release.ReleaseDto;
 import ru.ditchsound.catalog.enums.WorkDescription;
-import ru.ditchsound.catalog.mappers.ReleaseMapper;
+import ru.ditchsound.catalog.mappers.release.ReleaseMapper;
 import ru.ditchsound.catalog.model.Release;
 import ru.ditchsound.catalog.repository.ReleaseRepository;
 import ru.ditchsound.catalog.service.ReleaseService;
@@ -35,7 +35,7 @@ class ReleaseServiceTest {
     void testCreateRelease() {
 
         //тестовая сущность которая пришла сверху, от контроллера
-        final ReleaseCreateDto wlvs = ReleaseCreateDto.builder()
+        final ReleaseUpdateDto wlvs = ReleaseUpdateDto.builder()
                 .bandName("WLVS")
                 .workDescription(new WorkDescription[]{ WorkDescription.EDITING, WorkDescription.MIXING })
                 .countOfTrack(1)

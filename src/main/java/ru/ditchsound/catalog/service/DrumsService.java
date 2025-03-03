@@ -25,7 +25,7 @@ public interface DrumsService {
     /** поиск всех drums инструментов по типу**/
     List<DrumsDto> findDrumsByType(String type, int page, int size);
     //TODO исправить return type с Entity на DTO
-    DrumsDto createDrums (DrumsDto drumsDto);
+   // DrumsDto createDrums (DrumsDto drumsDto);
 
     Studio getOrCreateStudio(StudioDto studioDto, Drums drums);
 }

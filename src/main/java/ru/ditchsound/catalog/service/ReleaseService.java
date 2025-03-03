@@ -1,7 +1,8 @@
 package ru.ditchsound.catalog.service;
 
-import ru.ditchsound.catalog.dto.Release.ReleaseCreateDto;
 import ru.ditchsound.catalog.dto.Release.ReleaseDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseResultDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseUpdateDto;
 import ru.ditchsound.catalog.enums.GenreEnum;
 
 import java.util.List;
@@ -35,6 +36,6 @@ public interface ReleaseService {
 
    // List<ReleaseDto> findByPrice(Double price, int page, int size);
 
-    /** создание релиза **/
-    ReleaseDto createRelease (ReleaseCreateDto release);
+    /** обновление релиза **/
+    ReleaseResultDto updateRelease (Long id, ReleaseUpdateDto releaseUpdateDto);
 }

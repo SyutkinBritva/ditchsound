@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.ditchsound.catalog.dto.Release.ReleaseCreateDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseResultDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseUpdateDto;
 import ru.ditchsound.catalog.dto.Release.ReleaseDto;
 import ru.ditchsound.catalog.enums.GenreEnum;
 import ru.ditchsound.catalog.service.ReleaseService;
@@ -63,9 +64,9 @@ public class ReleasesController {
         return new ResponseEntity<>(releaseService.findByGenre(genre, page, size), HttpStatus.OK);
     }
 
-    @PostMapping()
-    public ResponseEntity<ReleaseDto> createRelease(@RequestBody ReleaseCreateDto release) {
-        ReleaseDto releaseDto = releaseService.createRelease(release);
+    @PostMapping("updateRelease/{id}")
+    public ResponseEntity<ReleaseResultDto> updateRelease(@PathVariable("id") Long id, @RequestBody ReleaseUpdateDto release) {
+        ReleaseResultDto releaseDto = releaseService.updateRelease(id,release);
         return  ResponseEntity.status(HttpStatus.CREATED).body(releaseDto);
     }
 }

@@ -9,7 +9,7 @@ import ru.ditchsound.catalog.dto.Request.RequestApprovedDto;
 import ru.ditchsound.catalog.dto.Request.RequestDto;
 import ru.ditchsound.catalog.dto.Request.RequestStatusUpdateDto;
 import ru.ditchsound.catalog.enums.RequestStatus;
-import ru.ditchsound.catalog.mappers.RequestMapper;
+import ru.ditchsound.catalog.mappers.request.RequestMapper;
 import ru.ditchsound.catalog.model.Price;
 import ru.ditchsound.catalog.model.Request;
 import ru.ditchsound.catalog.repository.PriceRepository;

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.ditchsound.catalog.dto.Drums.DrumsDto;
 import ru.ditchsound.catalog.dto.Studio.StudioDto;
 import ru.ditchsound.catalog.mappers.DrumsMapper;
-import ru.ditchsound.catalog.mappers.ReleaseMapper;
+import ru.ditchsound.catalog.mappers.release.ReleaseMapper;
 import ru.ditchsound.catalog.model.Drums;
 import ru.ditchsound.catalog.model.Release;
 import ru.ditchsound.catalog.model.Studio;
@@ -85,33 +85,33 @@ public class DrumsServiceImpl implements DrumsService {
                 collect(Collectors.toList());
     }
 
-    @Transactional
-    public DrumsDto createDrums(DrumsDto drumsDto) {
-
-        Drums drums = drumsMapper.toEntity(drumsDto);
-
-        Release release = releaseRepository.findByBandName(drumsDto.getReleaseDto()
-                .getBandName()).orElseThrow(() ->
-                new EntityNotFoundException("Не найден релиз группы: "
-                        + drumsDto.getReleaseDto().getBandName()));
-
-        Studio studio = studioRepository.findStudioByStudioName
-                (drumsDto.getStudioDto().getStudioName()).orElseGet(() -> {
-            Studio newStudio = drumsMapper.toStudioEntity(drumsDto.getStudioDto());
-            return studioRepository.save(newStudio);
-        });
-
-        drums.setStudio(studio);
-        drums.setRelease(release);
-        studio.setDrums(drums);
-
-        release.setDrumsList(drums.getRelease().getDrumsList());
-
-        // Сохраняем инструмент
-        Drums savedDrums = drumsRepository.saveAndFlush(drums);
-        return drumsMapper.toDto(savedDrums);
-
-    }
+//    @Transactional
+//    public DrumsDto createDrums(DrumsDto drumsDto) {
+//
+//        Drums drums = drumsMapper.toEntity(drumsDto);
+//
+//        Release release = releaseRepository.findByBandName(drumsDto.getReleaseDto()
+//                .getBandName()).orElseThrow(() ->
+//                new EntityNotFoundException("Не найден релиз группы: "
+//                        + drumsDto.getReleaseDto().getBandName()));
+//
+//        Studio studio = studioRepository.findStudioByStudioName
+//                (drumsDto.getStudioDto().getStudioName()).orElseGet(() -> {
+//            Studio newStudio = drumsMapper.toStudioEntity(drumsDto.getStudioDto());
+//            return studioRepository.save(newStudio);
+//        });
+//
+//        drums.setStudio(studio);
+//        drums.setRelease(release);
+//        studio.setDrums(drums);
+//
+//        release.setDrumsList(drums.getRelease().getDrumsList());
+//
+//        // Сохраняем инструмент
+//        Drums savedDrums = drumsRepository.saveAndFlush(drums);
+//        return drumsMapper.toDto(savedDrums);
+//
+//    }
 
     @Override
     public Studio getOrCreateStudio(StudioDto studioDto, Drums drums) {

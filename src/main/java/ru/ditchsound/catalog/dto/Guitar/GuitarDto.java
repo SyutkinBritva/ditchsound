@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import ru.ditchsound.catalog.dto.Release.ReleaseDto;
 import ru.ditchsound.catalog.dto.Studio.StudioDto;
 
 @Data
@@ -19,7 +18,5 @@ public class GuitarDto {
     @Schema(description = "type of guitar")
     private String guitarType;
 
-    private ReleaseDto releaseDto;
     private StudioDto studioDto;
-
 }

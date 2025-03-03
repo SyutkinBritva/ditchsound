@@ -11,5 +11,6 @@ public enum GenreEnum {
     EDM,
     GRINDCORE,
     DEATH,
-    POP_PUNK
+    POP_PUNK,
+    UNKNOWN
 }

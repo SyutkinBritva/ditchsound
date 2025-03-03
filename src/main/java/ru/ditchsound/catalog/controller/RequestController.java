@@ -19,7 +19,7 @@ import ru.ditchsound.catalog.service.impl.RequestServiceImpl;
 import java.util.List;
 
 @RestController
-@RequestMapping("/releaseRequest")
+@RequestMapping("/request")
 @RequiredArgsConstructor
 public class RequestController {
 

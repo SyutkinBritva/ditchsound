@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import ru.ditchsound.catalog.dto.Release.ReleaseDto;
 import ru.ditchsound.catalog.dto.Studio.StudioDto;
 
 @Data
@@ -20,5 +19,4 @@ public class VocalDto {
     private String vocalType;
 
     private StudioDto studioDto;
-    private ReleaseDto releaseDto;
 }

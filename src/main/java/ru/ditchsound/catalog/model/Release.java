@@ -10,12 +10,15 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.TypeDef;
+import ru.ditchsound.catalog.enums.GenreEnum;
 import ru.ditchsound.catalog.enums.WorkDescription;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -61,7 +64,8 @@ public class Release extends BaseEntity {
     private String musicLabel;
 
     @Column(name = "genre")
-    private String genre;
+    @Enumerated(EnumType.STRING)
+    private GenreEnum genre;
 
     @OneToMany(mappedBy = "release", cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
