@@ -15,6 +15,8 @@ public interface ReleaseRepository extends JpaRepository<Release, Long> {
 
     Optional<Release> findByIdAndBandNameIgnoreCase(Long id, String bandName);
 
+    Optional<Release> findByBandNameAndReleaseName(String bandName, String releaseName);
+
     Page<Release> findAllByBandNameIgnoreCase(String bandName, Pageable pageable);
 
     Page<Release> findAllByMusicLabel (String musicLabel, Pageable pageable);

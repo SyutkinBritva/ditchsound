@@ -17,8 +17,14 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 public class ReleaseUpdateDto {
 
+    @Schema(description = "id")
+    private Long id;
+
     @Schema(description = "жанр группы")
     private GenreEnum genre;
+
+    @Schema(description = "название релиза")
+    private String releaseName;
 
     @Schema(description = "ссыдка на альбомную обложку")
     private String albumCoverLink;

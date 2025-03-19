@@ -1,5 +1,6 @@
 package ru.ditchsound.catalog.service;
 
+import ru.ditchsound.catalog.dto.Instrument.InstrumentDto;
 import ru.ditchsound.catalog.dto.Release.ReleaseDto;
 import ru.ditchsound.catalog.dto.Release.ReleaseResultDto;
 import ru.ditchsound.catalog.dto.Release.ReleaseUpdateDto;
@@ -30,12 +31,10 @@ public interface ReleaseService {
 
     /** поиск релиза по жанру **/
 
-    List<ReleaseDto> findByGenre (GenreEnum genre, int page, int size);
-
-    /** поиск релиза по цене **/
-
-   // List<ReleaseDto> findByPrice(Double price, int page, int size);
+    List<ReleaseDto> findByGenre(GenreEnum genre, int page, int size);
 
     /** обновление релиза **/
-    ReleaseResultDto updateRelease (Long id, ReleaseUpdateDto releaseUpdateDto);
+    ReleaseResultDto updateRelease(ReleaseUpdateDto releaseUpdateDto);
+
+    ReleaseResultDto addInstrumentToRelease(InstrumentDto instrumentDto, String bandName, String releaseName);
 }

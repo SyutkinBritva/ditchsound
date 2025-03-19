@@ -14,10 +14,10 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "drums")
-public class Drums extends Instrument {
+@Table(name = "other_instrument")
+public class OtherInstrument extends Instrument {
 
-    @Column(name = "drums_mics")
-    private String drumsMics;
+    @Column(name = "preset")
+    private String preset;
 
 }

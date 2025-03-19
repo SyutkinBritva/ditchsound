@@ -20,6 +20,9 @@ public class ReleaseDto {
     @Schema(description = "имя исполнителя")
     private String bandName;
 
+    @Schema(description = "название релиза")
+    private String releaseName;
+
     @Schema(description = "жанр релиза")
     private GenreEnum genre;
 

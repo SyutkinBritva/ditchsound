@@ -136,10 +136,13 @@ public class RequestServiceImpl implements RequestService {
                 .orElseThrow(() -> new RequestNotFoundException(requestId, RequestStatus.IN_WORK));
 
         request.setRequestStatus(RequestStatus.COMPLETED);
-        requestRepository.save(request);
+
     // создание релиза на основе выполненной заявки
         Release release = requestToReleaseMapper.requestToRelease(request);
         releaseRepository.save(release);
+
+        request.setRelease(release);
+        requestRepository.save(request);
 
         return requestMapper.toStatusUpdateDto(request);
     }

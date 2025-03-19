@@ -13,6 +13,8 @@ import lombok.experimental.Accessors;
 @Builder
 @Accessors(chain = true)
 public class StudioDto {
+
     @Schema(description = "имя студии")
     private String studioName;
+
 }

@@ -54,6 +54,9 @@ public class Release extends BaseEntity {
     @Column(name = "social_network_link")
     private String socialNetworkLink;
 
+    @Column(name = "release_name")
+    private String releaseName;
+
     @Column(name = "count_of_track")
     private Integer countOfTrack; // и тут и в поле заявки
 

@@ -1,6 +1,7 @@
 package ru.ditchsound.catalog.enums;
 
 public enum GenreEnum {
+
     ROCK,
     METAL,
     METALCORE,
@@ -13,4 +14,5 @@ public enum GenreEnum {
     DEATH,
     POP_PUNK,
     UNKNOWN
+
 }
