@@ -17,7 +17,6 @@ import ru.ditchsound.catalog.mappers.release.ReleaseUpdateConverter;
 import ru.ditchsound.catalog.model.Instrument;
 import ru.ditchsound.catalog.model.Release;
 import ru.ditchsound.catalog.model.Studio;
-import ru.ditchsound.catalog.repository.DrumsRepository;
 import ru.ditchsound.catalog.repository.InstrumentRepository;
 import ru.ditchsound.catalog.repository.ReleaseRepository;
 import ru.ditchsound.catalog.repository.RequestRepository;
@@ -38,8 +37,6 @@ public class ReleaseServiceImpl implements ReleaseService {
 
     private final InstrumentsMapper instrumentsMapper;
 
-    private final DrumsRepository drumsRepository;
-
     private final RequestRepository requestRepository;
 
     private final StudioRepository studioRepository;
@@ -49,13 +46,12 @@ public class ReleaseServiceImpl implements ReleaseService {
 
     public ReleaseServiceImpl(ReleaseRepository releaseRepository,
                               ReleaseMapper releaseMapper,
-                              InstrumentRepository instrumentRepository, InstrumentsMapper instrumentsMapper, DrumsRepository drumsRepository, RequestRepository requestRepository, StudioRepository studioRepository, ReleaseUpdateConverter updatedFromReleaseUpdateDto, ReleaseUpdateConverter toTransitional) {
+                              InstrumentRepository instrumentRepository, InstrumentsMapper instrumentsMapper, RequestRepository requestRepository, StudioRepository studioRepository, ReleaseUpdateConverter updatedFromReleaseUpdateDto, ReleaseUpdateConverter toTransitional) {
 
         this.releaseRepository = releaseRepository;
         this.releaseMapper = releaseMapper;
         this.instrumentRepository = instrumentRepository;
         this.instrumentsMapper = instrumentsMapper;
-        this.drumsRepository = drumsRepository;
         this.requestRepository = requestRepository;
         this.studioRepository = studioRepository;
         this.toTransitional = toTransitional;

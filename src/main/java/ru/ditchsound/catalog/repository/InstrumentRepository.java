@@ -24,7 +24,7 @@ public interface InstrumentRepository extends JpaRepository<Instrument, Long> {
     Optional<Instrument> findFirstInstrumentByReleaseReleaseName(String releaseName);
 
     Optional<Instrument> findFirstInstrumentByRelease_BandName(String bandName);
-
+    
     Optional<Instrument> findInstrumentByInstrumentTypeAndReleaseReleaseName(InstrumentTypeEnum instrumentType, String releaseName);
 
 }
