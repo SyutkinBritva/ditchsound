@@ -29,12 +29,19 @@ public interface ReleaseService {
      **/
     List<ReleaseDto> findByLabelName(String name, int page, int size);
 
-    /** поиск релиза по жанру **/
+    /**
+     * поиск релиза по жанру
+     **/
 
     List<ReleaseDto> findByGenre(GenreEnum genre, int page, int size);
 
-    /** обновление релиза **/
+    /**
+     * обновление релиза
+     **/
     ReleaseResultDto updateRelease(ReleaseUpdateDto releaseUpdateDto);
 
+    /**
+     *  добавление инструмента в релиз
+     **/
     ReleaseResultDto addInstrumentToRelease(InstrumentDto instrumentDto, String bandName, String releaseName);
 }

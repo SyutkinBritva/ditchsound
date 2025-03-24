@@ -5,6 +5,7 @@ import ru.ditchsound.catalog.dto.Release.ReleaseUpdateDto;
 import ru.ditchsound.catalog.model.Release;
 @Component
 public class ReleaseUpdateConverter {
+
     public Release updateFromReleaseUpdateDto(ReleaseUpdateDto releaseUpdateDto, Release release){
         release.setReleaseName(releaseUpdateDto.getReleaseName());
         release.setGenre(releaseUpdateDto.getGenre());

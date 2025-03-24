@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ru.ditchsound.catalog.enums.InstrumentPropertyEnum;
+import ru.ditchsound.catalog.enums.InstrumentTypeEnum;
 
 import javax.persistence.*;
 
@@ -28,7 +29,8 @@ public abstract class Instrument {
     private InstrumentPropertyEnum instrumentProperty;
 
     @Column(name = "type")
-    private String instrumentType;
+    @Enumerated(EnumType.STRING)
+    private InstrumentTypeEnum instrumentType;
 
     @Column (name = "instrument_model")
     private String instrumentModel;

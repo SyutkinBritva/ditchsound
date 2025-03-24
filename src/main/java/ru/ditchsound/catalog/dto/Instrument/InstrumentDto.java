@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import ru.ditchsound.catalog.dto.Studio.StudioDto;
 import ru.ditchsound.catalog.enums.InstrumentPropertyEnum;
+import ru.ditchsound.catalog.enums.InstrumentTypeEnum;
 
 @Data
 @Builder
@@ -17,7 +18,7 @@ import ru.ditchsound.catalog.enums.InstrumentPropertyEnum;
 public class InstrumentDto {
 
     @Schema(description = "тип инструмента")
-    private String type;
+    private InstrumentTypeEnum type;
 
     @Schema(description = "характеристика инструмента")
     private InstrumentPropertyEnum instrumentProperty;

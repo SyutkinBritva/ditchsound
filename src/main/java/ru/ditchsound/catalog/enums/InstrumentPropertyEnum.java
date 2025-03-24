@@ -4,6 +4,7 @@ public enum InstrumentPropertyEnum {
 
     ACOUSTIC,
     ELECTRIC,
+    BASS,
     SAMPLED,
     MAIN,
     BACK

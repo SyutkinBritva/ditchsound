@@ -4,13 +4,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 import ru.ditchsound.catalog.enums.GenreEnum;
 import ru.ditchsound.catalog.enums.WorkDescription;
 
 import java.time.LocalDate;
 
-@Component
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
