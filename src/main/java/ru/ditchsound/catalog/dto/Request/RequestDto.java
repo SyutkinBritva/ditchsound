@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.ditchsound.catalog.enums.RequestStatus;
 import ru.ditchsound.catalog.enums.WorkDescription;
 
 import java.time.LocalDate;
@@ -27,9 +26,6 @@ public class RequestDto {
 
     @Schema(description = "количество треков", example = "5")
     private int countOfTrack;
-
-    @Schema(description = "статус заявки")
-    private RequestStatus requestStatus;
 
     @Schema(description = "какие работы должен выполнить инженер")
     private WorkDescription[] workDescription;

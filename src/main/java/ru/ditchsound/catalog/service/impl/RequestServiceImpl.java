@@ -12,10 +12,13 @@ import ru.ditchsound.catalog.dto.Request.RequestStatusUpdateDto;
 import ru.ditchsound.catalog.enums.RequestStatus;
 import ru.ditchsound.catalog.exception.RequestNotFoundException;
 import ru.ditchsound.catalog.mappers.PriceMapper;
-import ru.ditchsound.catalog.mappers.RequestMapper;
+import ru.ditchsound.catalog.mappers.request.RequestMapper;
+import ru.ditchsound.catalog.mappers.request.RequestToReleaseMapper;
 import ru.ditchsound.catalog.model.Price;
+import ru.ditchsound.catalog.model.Release;
 import ru.ditchsound.catalog.model.Request;
 import ru.ditchsound.catalog.repository.PriceRepository;
+import ru.ditchsound.catalog.repository.ReleaseRepository;
 import ru.ditchsound.catalog.repository.RequestRepository;
 import ru.ditchsound.catalog.service.PriceService;
 import ru.ditchsound.catalog.service.RequestService;
@@ -33,6 +36,8 @@ public class RequestServiceImpl implements RequestService {
     private final PriceService priceService;
     private final PriceMapper priceMapper;
     private final EmailServiceImpl emailServiceImpl;
+    private final RequestToReleaseMapper requestToReleaseMapper;
+    private final ReleaseRepository releaseRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -132,6 +137,11 @@ public class RequestServiceImpl implements RequestService {
 
         request.setRequestStatus(RequestStatus.COMPLETED);
 
+    // создание релиза на основе выполненной заявки
+        Release release = requestToReleaseMapper.requestToRelease(request);
+        releaseRepository.save(release);
+
+        request.setRelease(release);
         requestRepository.save(request);
 
         return requestMapper.toStatusUpdateDto(request);

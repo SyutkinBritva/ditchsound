@@ -1,7 +1,9 @@
 package ru.ditchsound.catalog.service;
 
-import ru.ditchsound.catalog.dto.Release.ReleaseCreateDto;
+import ru.ditchsound.catalog.dto.Instrument.InstrumentDto;
 import ru.ditchsound.catalog.dto.Release.ReleaseDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseResultDto;
+import ru.ditchsound.catalog.dto.Release.ReleaseUpdateDto;
 import ru.ditchsound.catalog.enums.GenreEnum;
 
 import java.util.List;
@@ -27,14 +29,19 @@ public interface ReleaseService {
      **/
     List<ReleaseDto> findByLabelName(String name, int page, int size);
 
-    /** поиск релиза по жанру **/
+    /**
+     * поиск релиза по жанру
+     **/
 
-    List<ReleaseDto> findByGenre (GenreEnum genre, int page, int size);
+    List<ReleaseDto> findByGenre(GenreEnum genre, int page, int size);
 
-    /** поиск релиза по цене **/
+    /**
+     * обновление релиза
+     **/
+    ReleaseResultDto updateRelease(ReleaseUpdateDto releaseUpdateDto);
 
-   // List<ReleaseDto> findByPrice(Double price, int page, int size);
-
-    /** создание релиза **/
-    ReleaseDto createRelease (ReleaseCreateDto release);
+    /**
+     *  добавление инструмента в релиз
+     **/
+    ReleaseResultDto addInstrumentToRelease(InstrumentDto instrumentDto, String bandName, String releaseName);
 }

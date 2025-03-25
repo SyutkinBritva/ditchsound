@@ -36,24 +36,4 @@ public class Studio extends BaseEntity {
     @ToString.Exclude
     private List<Instrument> instrumentList;
 
-    @OneToMany(mappedBy = "studio"
-            , cascade = CascadeType.ALL
-            , orphanRemoval = true)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Guitar> guitarList;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "drums_id", nullable = false)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Drums drums;
-
-    @OneToMany(mappedBy = "studio"
-            , cascade = CascadeType.ALL
-            , orphanRemoval = true)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Vocal> vocalsList;
-
 }
