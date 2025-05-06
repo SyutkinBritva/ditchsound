@@ -2,7 +2,7 @@ package ru.ditchsound.catalog.exception;
 
 import ru.ditchsound.catalog.enums.RequestStatus;
 
-public class RequestNotFoundException extends RuntimeException {
+public class RequestNotFoundException extends NotFoundException {
 
     public RequestNotFoundException(Long id, RequestStatus requestStatus){
 

@@ -1,6 +1,6 @@
 package ru.ditchsound.catalog.exception;
 
-public class ReleaseNotFoundException extends RuntimeException {
+public class ReleaseNotFoundException extends NotFoundException {
 
     public ReleaseNotFoundException(Long id) {
         super(String.format("Релиз с id %s не найден", id));
