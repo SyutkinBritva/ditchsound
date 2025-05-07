@@ -3,10 +3,12 @@ package ru.ditchsound.catalog.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import ru.ditchsound.catalog.dto.Instrument.InstrumentDto;
-import ru.ditchsound.catalog.enums.InstrumentTypeEnum;
-import ru.ditchsound.catalog.exception.BadRequestException;
 import ru.ditchsound.catalog.service.InstrumentService;
 
 import java.util.List;
@@ -64,17 +66,12 @@ public class InstrumentController {
 
     @GetMapping("/by-type/all/{type}")
     public ResponseEntity<List<InstrumentDto>> getAllInstrByType(
-            @PathVariable String type,
+            @PathVariable("type") String type,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {
-        log.info("GET /api/instruments/by-type/all/{} - Получение всех инструментов по типу", type);
-        try {
-            InstrumentTypeEnum instrumentType = InstrumentTypeEnum.valueOf(type.toUpperCase());
-            return ResponseEntity.ok(instrumentService.findAllInstrByType(instrumentType, page, size));
-        } catch (IllegalArgumentException e) {
-            throw new BadRequestException("Некорректный тип инструмента: " + type);
-        }
+        log.info("GET /instruments/by-type/all/{} - Получение всех инструментов по типу", type);
+        return ResponseEntity.ok(instrumentService.findAllInstrByType(type, page, size));
     }
 
     @GetMapping("/by-studio/all/{studio}")

@@ -109,12 +109,13 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<InstrumentDto> findAllInstrByType(InstrumentTypeEnum type, int page, int size) {
+    public List<InstrumentDto> findAllInstrByType(String type, int page, int size) {
+        InstrumentTypeEnum parsedType = InstrumentTypeEnum.parse(type);
 
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Instrument> entityList = instrumentRepository
-                .findAllByInstrumentType(type, pageable);
+                .findAllByInstrumentType(parsedType, pageable);
 
         return entityList.getContent().stream()
                 .map(instrumentsMapper::toDto)

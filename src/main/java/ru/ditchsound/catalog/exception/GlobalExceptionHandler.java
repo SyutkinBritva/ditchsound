@@ -22,8 +22,8 @@ public class GlobalExceptionHandler {
     }
 
     // Обработка некорректных запросов -> 400
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorResponse> handleBadRequest(BadRequestException ex) {
+    @ExceptionHandler(WrongInstrumentTypeException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(WrongInstrumentTypeException ex) {
         log.warn("BadRequest: {}", ex.getMessage());
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),

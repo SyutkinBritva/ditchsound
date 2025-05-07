@@ -1,7 +1,6 @@
 package ru.ditchsound.catalog.service;
 
 import ru.ditchsound.catalog.dto.Instrument.InstrumentDto;
-import ru.ditchsound.catalog.enums.InstrumentTypeEnum;
 
 import java.util.List;
 
@@ -28,5 +27,5 @@ public interface InstrumentService {
     List<InstrumentDto> findAllInstrByBandName(String bandName, int page, int size);
 
     /** поиск всех Instr инструментов по типу **/
-    List<InstrumentDto> findAllInstrByType(InstrumentTypeEnum type, int page, int size);
+    List<InstrumentDto> findAllInstrByType(String type, int page, int size);
 }
