@@ -1,7 +1,7 @@
 package ru.ditchsound.catalog.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +18,7 @@ import ru.ditchsound.catalog.service.impl.RequestServiceImpl;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/request")
 @RequiredArgsConstructor
@@ -27,39 +28,52 @@ public class RequestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RequestDto> getRequest(@PathVariable("id") Long requestId) {
-        return new ResponseEntity<>(requestService.findRequest(requestId), HttpStatus.OK);
+        log.info("GET /api/requests/{} - Получение заявки", requestId);
+        RequestDto request = requestService.findRequest(requestId);
+        return ResponseEntity.ok(request);
     }
 
     @GetMapping()
-    public  ResponseEntity<List<RequestDto>> getAllRequests(@RequestParam(required = false, defaultValue = "0") int page,
-                                                            @RequestParam(required = false, defaultValue = "5") int size){
-        return new ResponseEntity<>(requestService.findAllRequests(page, size), HttpStatus.OK);
+    public ResponseEntity<List<RequestDto>> getAllRequests(@RequestParam(required = false, defaultValue = "0") int page,
+                                                           @RequestParam(required = false, defaultValue = "5") int size) {
+        log.info("GET /api/requests?page={}&size={} - Получение всех заявок", page, size);
+        List<RequestDto> requests = requestService.findAllRequests(page, size);
+        return ResponseEntity.ok(requests);
     }
 
     @PostMapping
-    public ResponseEntity<RequestDto> createRequest(@RequestBody RequestDto requestDto){
-        RequestDto resultRequest = requestService.createRequest(requestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(resultRequest);
+    public ResponseEntity<RequestDto> createRequest(@RequestBody RequestDto requestDto) {
+        log.info("POST /api/requests - Создание новой заявки");
+        RequestDto created = requestService.createRequest(requestDto);
+        return ResponseEntity.status(201).body(created);
     }
 
     @PutMapping("/{id}/approve-request")
-    public ResponseEntity<RequestApprovedDto> approveRequest(@PathVariable Long id,@RequestParam  Double discount){
-        return  ResponseEntity.ok(requestService.approveRequest(id, discount));
+    public ResponseEntity<RequestApprovedDto> approveRequest(@PathVariable Long id, @RequestParam Double discount) {
+        log.info("PUT /api/requests/{}/approve - Подтверждение заявки со скидкой: {}", id, discount);
+        RequestApprovedDto approved = requestService.approveRequest(id, discount);
+        return ResponseEntity.ok(approved);
     }
 
     @PutMapping("/{id}/confirm-price")
-    public ResponseEntity<RequestStatusUpdateDto> confirmPrice(@PathVariable Long id,@RequestParam String email){
-        return ResponseEntity.ok(requestService.confirmPrice(id, email));
+    public ResponseEntity<RequestStatusUpdateDto> confirmPrice(@PathVariable Long id, @RequestParam String email) {
+        log.info("PUT /api/requests/{}/confirm-price - Подтверждение цены заявителем: {}", id, email);
+        RequestStatusUpdateDto confirmed = requestService.confirmPrice(id, email);
+        return ResponseEntity.ok(confirmed);
     }
 
     @PutMapping("/{id}/decline-request")
-    public ResponseEntity<RequestStatusUpdateDto> declineRequest(@PathVariable Long id){
-        return ResponseEntity.ok(requestService.declineRequest(id));
+    public ResponseEntity<RequestStatusUpdateDto> declineRequest(@PathVariable Long id) {
+        log.info("PUT /api/requests/{}/decline - Отклонение заявки", id);
+        RequestStatusUpdateDto declined = requestService.declineRequest(id);
+        return ResponseEntity.ok(declined);
     }
 
     @PutMapping("/{id}/complete-request")
-    public ResponseEntity<RequestStatusUpdateDto> completeRequest(@PathVariable Long id){
-        return ResponseEntity.ok(requestService.completeRequest(id));
+    public ResponseEntity<RequestStatusUpdateDto> completeRequest(@PathVariable Long id) {
+        log.info("PUT /api/requests/{}/complete - Завершение заявки", id);
+        RequestStatusUpdateDto completed = requestService.completeRequest(id);
+        return ResponseEntity.ok(completed);
     }
 
 }

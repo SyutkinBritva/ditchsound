@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ditchsound.catalog.dto.Instrument.InstrumentDto;
 import ru.ditchsound.catalog.enums.InstrumentTypeEnum;
-import ru.ditchsound.catalog.mappers.instruments.InstrumentUpdateMapper;
 import ru.ditchsound.catalog.mappers.instruments.InstrumentsMapper;
 import ru.ditchsound.catalog.model.Instrument;
 import ru.ditchsound.catalog.repository.InstrumentRepository;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 public class InstrumentServiceImpl implements InstrumentService {
     private final InstrumentRepository instrumentRepository;
     private final InstrumentsMapper instrumentsMapper;
-    private final InstrumentUpdateMapper instrumentUpdateMapper;
 
 
     @Transactional(readOnly = true)
@@ -109,12 +107,13 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<InstrumentDto> findAllInstrByType(InstrumentTypeEnum type, int page, int size) {
+    public List<InstrumentDto> findAllInstrByType(String type, int page, int size) {
+        InstrumentTypeEnum parsedType = InstrumentTypeEnum.parse(type);
 
         Pageable pageable = PageRequest.of(page, size);
 
         Page<Instrument> entityList = instrumentRepository
-                .findAllByInstrumentType(type, pageable);
+                .findAllByInstrumentType(parsedType, pageable);
 
         return entityList.getContent().stream()
                 .map(instrumentsMapper::toDto)

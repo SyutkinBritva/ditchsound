@@ -41,7 +41,7 @@ public interface ReleaseService {
     ReleaseResultDto updateRelease(ReleaseUpdateDto releaseUpdateDto);
 
     /**
-     *  добавление инструмента в релиз
+     * добавление инструмента в релиз
      **/
     ReleaseResultDto addInstrumentToRelease(InstrumentDto instrumentDto, String bandName, String releaseName);
 }

@@ -1,7 +1,7 @@
 package ru.ditchsound.catalog.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,74 +9,78 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.ditchsound.catalog.dto.Instrument.InstrumentDto;
-import ru.ditchsound.catalog.enums.InstrumentTypeEnum;
 import ru.ditchsound.catalog.service.InstrumentService;
 
 import java.util.List;
 
+@Slf4j
 @RestController
-@RequestMapping("/instruments")
+@RequestMapping("/api/instruments")
 @RequiredArgsConstructor
 public class InstrumentController {
 
     private final InstrumentService instrumentService;
 
     @GetMapping("/{id}")
-    public InstrumentDto getInstrumentById(@PathVariable("id") Long id) {
-
-        return instrumentService.findInstrById(id);
+    public ResponseEntity<InstrumentDto> getInstrumentById(@PathVariable Long id) {
+        log.info("GET /api/instruments/{} - Получение инструмента по ID", id);
+        return ResponseEntity.ok(instrumentService.findInstrById(id));
     }
 
-    @GetMapping("by-studio/{studioName}")
-    public InstrumentDto getInstrumentByStudio(@PathVariable("studioName") String studioName) {
-
-        return instrumentService.findInstrByStudio(studioName);
+    @GetMapping("/by-studio/{studioName}")
+    public ResponseEntity<InstrumentDto> getInstrumentByStudio(@PathVariable String studioName) {
+        log.info("GET /api/instruments/by-studio/{} - Получение инструмента по студии", studioName);
+        return ResponseEntity.ok(instrumentService.findInstrByStudio(studioName));
     }
 
-    @GetMapping("by-band/{bandName}")
-    public InstrumentDto getInstrumentByBandName(@PathVariable("bandName") String bandName) {
-
-        return instrumentService.findInstrByBandName(bandName);
+    @GetMapping("/by-band/{bandName}")
+    public ResponseEntity<InstrumentDto> getInstrumentByBandName(@PathVariable String bandName) {
+        log.info("GET /api/instruments/by-band/{} - Получение инструмента по группе", bandName);
+        return ResponseEntity.ok(instrumentService.findInstrByBandName(bandName));
     }
 
-    @GetMapping("by-release/{releaseName}")
-    public InstrumentDto getInstrumentByReleaseName(@PathVariable("releaseName") String releaseName) {
-
-        return instrumentService.findInstrByReleaseName(releaseName);
+    @GetMapping("/by-release/{releaseName}")
+    public ResponseEntity<InstrumentDto> getInstrumentByReleaseName(@PathVariable String releaseName) {
+        log.info("GET /api/instruments/by-release/{} - Получение инструмента по релизу", releaseName);
+        return ResponseEntity.ok(instrumentService.findInstrByReleaseName(releaseName));
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<InstrumentDto>> getAllInstr(
-            @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "5") int size
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
     ) {
-        return new ResponseEntity<>(instrumentService.findAllInstruments(page, size), HttpStatus.OK);
+        log.info("GET /api/instruments?page={}&size={} - Получение всех инструментов", page, size);
+        return ResponseEntity.ok(instrumentService.findAllInstruments(page, size));
     }
 
-    @GetMapping("by-band/all/{bandName}")
-    public ResponseEntity<List<InstrumentDto>> getAllInstrByBandName(@PathVariable("bandName") String bandName
-            , @RequestParam(required = false, defaultValue = "0") int page
-            , @RequestParam(required = false, defaultValue = "5") int size
+    @GetMapping("/by-band/all/{bandName}")
+    public ResponseEntity<List<InstrumentDto>> getAllInstrByBandName(
+            @PathVariable String bandName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
     ) {
-        return new ResponseEntity<>(instrumentService.findAllInstrByBandName(bandName, page, size), HttpStatus.OK);
+        log.info("GET /api/instruments/by-band/all/{} - Получение всех инструментов по группе", bandName);
+        return ResponseEntity.ok(instrumentService.findAllInstrByBandName(bandName, page, size));
     }
 
-    @GetMapping("byInstrType/all/{type}")
-    public ResponseEntity<List<InstrumentDto>> getAllInstrByType(@PathVariable("type") String type
-            , @RequestParam(required = false, defaultValue = "0") int page
-            , @RequestParam(required = false, defaultValue = "5") int size
+    @GetMapping("/by-type/all/{type}")
+    public ResponseEntity<List<InstrumentDto>> getAllInstrByType(
+            @PathVariable("type") String type,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
     ) {
-        return new ResponseEntity<>(instrumentService.findAllInstrByType(InstrumentTypeEnum.valueOf(type), page, size), HttpStatus.OK);
+        log.info("GET /instruments/by-type/all/{} - Получение всех инструментов по типу", type);
+        return ResponseEntity.ok(instrumentService.findAllInstrByType(type, page, size));
     }
 
-    @GetMapping("by-studio/all/{studio}")
+    @GetMapping("/by-studio/all/{studio}")
     public ResponseEntity<List<InstrumentDto>> getAllInstrByStudio(
-            @PathVariable("studio") String studio
-            , @RequestParam(required = false, defaultValue = "0") int page
-            , @RequestParam(required = false, defaultValue = "5") int size
+            @PathVariable String studio,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
     ) {
-
-        return new ResponseEntity<>(instrumentService.findAllInstrByStudio(studio, page, size), HttpStatus.OK);
+        log.info("GET /api/instruments/by-studio/all/{} - Получение всех инструментов по студии", studio);
+        return ResponseEntity.ok(instrumentService.findAllInstrByStudio(studio, page, size));
     }
-
 }

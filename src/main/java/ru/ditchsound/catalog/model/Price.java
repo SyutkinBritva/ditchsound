@@ -22,24 +22,24 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "price")
 @AttributeOverride(name = "id", column = @Column(name = "price_id"))
-public class Price extends  BaseEntity {
+public class Price extends BaseEntity {
 
-    @Column (name = "mixing")
+    @Column(name = "mixing")
     private Double mixing;
 
-    @Column (name = "mastering")
+    @Column(name = "mastering")
     private Double mastering;
 
-    @Column (name = "editing")
+    @Column(name = "editing")
     private Double editing;
 
-    @Column (name = "producing")
+    @Column(name = "producing")
     private Double producing;
 
-    @Column (name = "discount")
+    @Column(name = "discount")
     private Double discount;
 
-    @Column (name = "number_of_songs")
+    @Column(name = "number_of_songs")
     private Integer numberOfSongs;
 
     @OneToOne()

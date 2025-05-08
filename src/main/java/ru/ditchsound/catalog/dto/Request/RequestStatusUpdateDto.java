@@ -7,6 +7,7 @@ import ru.ditchsound.catalog.enums.RequestStatus;
 import ru.ditchsound.catalog.enums.WorkDescription;
 
 import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 public class RequestStatusUpdateDto {
@@ -16,7 +17,7 @@ public class RequestStatusUpdateDto {
     @Schema(description = "имя заявки, уникальное", example = "Заявка №1 - сведение EP")
     private String requestName;
 
-    @Schema(description = "имя группы" , example = "Viking")
+    @Schema(description = "имя группы", example = "Viking")
     private String bandName;
 
     @Schema(description = "количество треков", example = "5")
