@@ -24,7 +24,7 @@ public class EmailServiceImpl implements ru.ditchsound.catalog.service.EmailServ
                 + "Итоговая стоимость услуг: " + request.getTotalAmount() + " USD.\n" +
                 "На данный момент заявка подтверждается в Swagger по id, перейдите по ссылке \n" +
                 "http://localhost:8080/swagger-ui/index.html#/request-controller/confirmPriceUsingPUT \n" +
-                "И введите этот номер - " + request.getId() +" и ваш email " + request.getBandEmail() +
+                "И введите этот номер - " + request.getId() + " и ваш email " + request.getBandEmail() +
                 " \" С уважением, DITCHSOUND!\" ");
 
         javaMailSender.send(mailMessage);

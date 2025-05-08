@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 
 public enum InstrumentTypeEnum {
+
     DRUMS("drums"),
     GUITAR("guitar"),
     VOCAL("vocal"),

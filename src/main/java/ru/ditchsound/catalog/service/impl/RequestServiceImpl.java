@@ -12,7 +12,6 @@ import ru.ditchsound.catalog.dto.Request.RequestDto;
 import ru.ditchsound.catalog.dto.Request.RequestStatusUpdateDto;
 import ru.ditchsound.catalog.enums.RequestStatus;
 import ru.ditchsound.catalog.exception.RequestNotFoundException;
-import ru.ditchsound.catalog.mappers.PriceMapper;
 import ru.ditchsound.catalog.mappers.request.RequestMapper;
 import ru.ditchsound.catalog.mappers.request.RequestToReleaseMapper;
 import ru.ditchsound.catalog.model.Price;
@@ -26,6 +25,7 @@ import ru.ditchsound.catalog.service.RequestService;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -35,7 +35,6 @@ public class RequestServiceImpl implements RequestService {
     private final RequestMapper requestMapper;
     private final PriceRepository priceRepository;
     private final PriceService priceService;
-    private final PriceMapper priceMapper;
     private final EmailServiceImpl emailServiceImpl;
     private final RequestToReleaseMapper requestToReleaseMapper;
     private final ReleaseRepository releaseRepository;
@@ -45,7 +44,7 @@ public class RequestServiceImpl implements RequestService {
     public RequestDto findRequest(Long id) {
 
         Request savedRequest = requestRepository
-                .findById(id).orElseThrow(()-> new RequestNotFoundException(id, RequestStatus.UNAVAILABLE));
+                .findById(id).orElseThrow(() -> new RequestNotFoundException(id, RequestStatus.UNAVAILABLE));
         return requestMapper.toDto(savedRequest);
     }
 
@@ -103,7 +102,7 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     @Transactional
-    public RequestStatusUpdateDto confirmPrice(Long requestId,String email) {
+    public RequestStatusUpdateDto confirmPrice(Long requestId, String email) {
 
         Request request = requestRepository.findByIdAndBandEmailAndRequestStatus(requestId, email, RequestStatus.APPROVED)
                 .orElseThrow(() -> new RequestNotFoundException(requestId, RequestStatus.APPROVED));
@@ -138,7 +137,7 @@ public class RequestServiceImpl implements RequestService {
 
         request.setRequestStatus(RequestStatus.COMPLETED);
 
-    // создание релиза на основе выполненной заявки
+        // создание релиза на основе выполненной заявки
         Release release = requestToReleaseMapper.requestToRelease(request);
         releaseRepository.save(release);
 

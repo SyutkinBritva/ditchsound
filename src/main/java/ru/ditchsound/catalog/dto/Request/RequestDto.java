@@ -21,7 +21,7 @@ public class RequestDto {
     @Schema(description = "имя заявки, уникальное", example = "Заявка №1 - сведение EP")
     private String requestName;
 
-    @Schema(description = "имя группы" , example = "Viking")
+    @Schema(description = "имя группы", example = "Viking")
     private String bandName;
 
     @Schema(description = "количество треков", example = "5")

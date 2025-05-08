@@ -7,8 +7,8 @@ import ru.ditchsound.catalog.model.Studio;
 @Mapper(componentModel = "spring")
 public interface StudioMapper {
 
-    StudioDto toDto (Studio studio);
+    StudioDto toDto(Studio studio);
 
-    Studio toEntity (StudioDto studioDto);
+    Studio toEntity(StudioDto studioDto);
 
 }

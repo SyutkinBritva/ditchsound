@@ -39,10 +39,10 @@ public class PriceServiceImpl implements PriceService {
         Integer countOfTrack = request.getCountOfTrack();
         for (WorkDescription work : request.getWorkDescription()) {
             switch (work) {
-                case MIXING -> price.setMixing(work.getPrice()*countOfTrack);
-                case MASTERING -> price.setMastering(work.getPrice()*countOfTrack);
-                case PRODUCING -> price.setProducing(work.getPrice()*countOfTrack);
-                case EDITING -> price.setEditing(work.getPrice()*countOfTrack);
+                case MIXING -> price.setMixing(work.getPrice() * countOfTrack);
+                case MASTERING -> price.setMastering(work.getPrice() * countOfTrack);
+                case PRODUCING -> price.setProducing(work.getPrice() * countOfTrack);
+                case EDITING -> price.setEditing(work.getPrice() * countOfTrack);
             }
         }
 

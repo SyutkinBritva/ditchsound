@@ -7,7 +7,7 @@ import ru.ditchsound.catalog.model.Price;
 @Mapper(componentModel = "spring")
 public interface PriceMapper {
 
-    Price toEntity (PriceDto priceDto);
+    Price toEntity(PriceDto priceDto);
 
-    PriceDto toDto (Price price);
+    PriceDto toDto(Price price);
 }
