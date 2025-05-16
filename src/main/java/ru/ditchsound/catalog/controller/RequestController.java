@@ -1,8 +1,11 @@
 package ru.ditchsound.catalog.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +25,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/request")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class RequestController {
 
     private final RequestServiceImpl requestService;
 
+    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
+    @Secured("ROLE_ADMIN")
     @GetMapping("/{id}")
     public ResponseEntity<RequestDto> getRequest(@PathVariable("id") Long requestId) {
         log.info("GET /api/requests/{} - Получение заявки", requestId);
@@ -33,6 +39,7 @@ public class RequestController {
         return ResponseEntity.ok(request);
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping()
     public ResponseEntity<List<RequestDto>> getAllRequests(@RequestParam(required = false, defaultValue = "0") int page,
                                                            @RequestParam(required = false, defaultValue = "5") int size) {
@@ -41,6 +48,7 @@ public class RequestController {
         return ResponseEntity.ok(requests);
     }
 
+    @Secured("ROLE_USER")
     @PostMapping
     public ResponseEntity<RequestDto> createRequest(@RequestBody RequestDto requestDto) {
         log.info("POST /api/requests - Создание новой заявки");
@@ -48,6 +56,7 @@ public class RequestController {
         return ResponseEntity.status(201).body(created);
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/{id}/approve-request")
     public ResponseEntity<RequestApprovedDto> approveRequest(@PathVariable Long id, @RequestParam Double discount) {
         log.info("PUT /api/requests/{}/approve - Подтверждение заявки со скидкой: {}", id, discount);
@@ -55,6 +64,7 @@ public class RequestController {
         return ResponseEntity.ok(approved);
     }
 
+    @Secured("ROLE_USER")
     @PutMapping("/{id}/confirm-price")
     public ResponseEntity<RequestStatusUpdateDto> confirmPrice(@PathVariable Long id, @RequestParam String email) {
         log.info("PUT /api/requests/{}/confirm-price - Подтверждение цены заявителем: {}", id, email);
@@ -62,6 +72,7 @@ public class RequestController {
         return ResponseEntity.ok(confirmed);
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/{id}/decline-request")
     public ResponseEntity<RequestStatusUpdateDto> declineRequest(@PathVariable Long id) {
         log.info("PUT /api/requests/{}/decline - Отклонение заявки", id);
@@ -69,6 +80,7 @@ public class RequestController {
         return ResponseEntity.ok(declined);
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/{id}/complete-request")
     public ResponseEntity<RequestStatusUpdateDto> completeRequest(@PathVariable Long id) {
         log.info("PUT /api/requests/{}/complete - Завершение заявки", id);

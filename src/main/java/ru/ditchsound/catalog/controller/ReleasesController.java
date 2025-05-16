@@ -3,6 +3,7 @@ package ru.ditchsound.catalog.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -72,6 +73,7 @@ public class ReleasesController {
         return ResponseEntity.ok(releaseService.findByGenre(genreName, page, size));
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping
     public ResponseEntity<ReleaseResultDto> updateRelease(@RequestBody ReleaseUpdateDto release) {
         log.info("PUT /api/releases - Обновление релиза");
@@ -79,6 +81,7 @@ public class ReleasesController {
         return ResponseEntity.ok(updated);
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/{bandName}/{releaseName}/instruments")
     public ResponseEntity<ReleaseResultDto> addInstrumentToRelease(
             @PathVariable String bandName,
