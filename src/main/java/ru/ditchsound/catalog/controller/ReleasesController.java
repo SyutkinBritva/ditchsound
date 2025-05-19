@@ -1,8 +1,10 @@
 package ru.ditchsound.catalog.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,16 +25,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/releases")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class ReleasesController {
 
     private final ReleaseService releaseService;
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ReleaseDto> getRelease(@PathVariable Long id) {
         log.info("GET /api/releases/{} - Получение релиза", id);
         return ResponseEntity.ok(releaseService.findById(id));
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     public ResponseEntity<List<ReleaseDto>> getAllReleases(
             @RequestParam(defaultValue = "0") int page,
@@ -42,6 +47,7 @@ public class ReleasesController {
         return ResponseEntity.ok(releaseService.findAll(page, size));
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/by-band/{bandName}")
     public ResponseEntity<List<ReleaseDto>> getReleaseByBandName(
             @PathVariable String bandName,
@@ -52,6 +58,7 @@ public class ReleasesController {
         return ResponseEntity.ok(releaseService.findReleaseByBandName(bandName, page, size));
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/by-label/{labelName}")
     public ResponseEntity<List<ReleaseDto>> getReleaseByLabelName(
             @PathVariable String labelName,
@@ -62,6 +69,7 @@ public class ReleasesController {
         return ResponseEntity.ok(releaseService.findByLabelName(labelName, page, size));
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/by-genre/{genreName}")
     public ResponseEntity<List<ReleaseDto>> getReleaseByGenreName(
             @PathVariable GenreEnum genreName,
@@ -72,6 +80,7 @@ public class ReleasesController {
         return ResponseEntity.ok(releaseService.findByGenre(genreName, page, size));
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PutMapping
     public ResponseEntity<ReleaseResultDto> updateRelease(@RequestBody ReleaseUpdateDto release) {
         log.info("PUT /api/releases - Обновление релиза");
@@ -79,6 +88,7 @@ public class ReleasesController {
         return ResponseEntity.ok(updated);
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PutMapping("/{bandName}/{releaseName}/instruments")
     public ResponseEntity<ReleaseResultDto> addInstrumentToRelease(
             @PathVariable String bandName,
