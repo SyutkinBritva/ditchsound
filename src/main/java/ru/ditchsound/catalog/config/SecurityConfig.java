@@ -32,9 +32,6 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().disable()
                 .authorizeRequests()
-                .antMatchers("/secured").authenticated()
-                .antMatchers("/info").authenticated()
-                .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers(        "/v3/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-ui.html",

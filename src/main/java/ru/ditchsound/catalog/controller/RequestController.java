@@ -1,11 +1,11 @@
 package ru.ditchsound.catalog.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +30,6 @@ public class RequestController {
 
     private final RequestServiceImpl requestService;
 
-    @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     @Secured("ROLE_ADMIN")
     @GetMapping("/{id}")
     public ResponseEntity<RequestDto> getRequest(@PathVariable("id") Long requestId) {
@@ -48,7 +47,7 @@ public class RequestController {
         return ResponseEntity.ok(requests);
     }
 
-    @Secured("ROLE_USER")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<RequestDto> createRequest(@RequestBody RequestDto requestDto) {
         log.info("POST /api/requests - Создание новой заявки");
@@ -64,7 +63,7 @@ public class RequestController {
         return ResponseEntity.ok(approved);
     }
 
-    @Secured("ROLE_USER")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PutMapping("/{id}/confirm-price")
     public ResponseEntity<RequestStatusUpdateDto> confirmPrice(@PathVariable Long id, @RequestParam String email) {
         log.info("PUT /api/requests/{}/confirm-price - Подтверждение цены заявителем: {}", id, email);
