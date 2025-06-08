@@ -1,8 +1,13 @@
 package ru.ditchsound.catalog.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Data
 @AllArgsConstructor
@@ -10,30 +15,10 @@ import javax.persistence.*;
 @Entity
 @Builder
 @Table(name = "guitar")
-@AttributeOverride(name = "id", column = @Column(name = "guitar_id"))
-public class Guitar extends BaseEntity {
 
-    @Column (name = "guitar_type")
-    private String guitarType;
+public class Guitar extends Instrument {
 
-    @Column (name = "guitar_model")
-    private String guitarModel;
+    @Column(name = "signal_chain")
+    private String signalChain;
 
-    @Column (name = "tone_stack")
-    private String toneStack;
-
-    @Column (name = "tone_stack_img")
-    private String toneStackImg;
-
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "release_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Release release;
-
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "studio_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Studio studio;
 }

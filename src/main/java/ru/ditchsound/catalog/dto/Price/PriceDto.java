@@ -35,4 +35,7 @@ public class PriceDto {
     @Schema(description = "размер скидки")
     private Double discount;
 
+    @Schema(description = "количество песен")
+    private Integer numberOfSongs;
+
 }

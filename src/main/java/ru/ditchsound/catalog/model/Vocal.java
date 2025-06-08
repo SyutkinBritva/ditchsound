@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -14,28 +15,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "vocal")
-@AttributeOverride(name = "id", column = @Column(name = "vocal_id"))
-public class Vocal extends BaseEntity {
-
-    @Column(name = "vocal_type")
-    private String vocalType;
+public class Vocal extends Instrument {
 
     @Column(name = "vocal_technique")
     private String vocalTechnique;
 
     @Column(name = "vocal_mic")
     private String vocalMic;
-
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "release_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Release release;
-
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "studio_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Studio studio;
 
 }

@@ -24,11 +24,11 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 
 @EqualsAndHashCode(callSuper = true)
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Builder
 @Table(name = "request")
 @TypeDef(
         typeClass = EnumArrayType.class,

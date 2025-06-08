@@ -5,37 +5,57 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import ru.ditchsound.catalog.enums.InstrumentPropertyEnum;
+import ru.ditchsound.catalog.enums.InstrumentTypeEnum;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@EqualsAndHashCode(callSuper = true)
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "instrument")
-@AttributeOverride(name = "id", column = @Column(name = "instrument_id"))
-public class Instrument extends BaseEntity {
+public abstract class Instrument {
 
-    @Column (name = "instrument_type")
-    private String instrumentType;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column (name = "instrument_model")
+    @Column(name = "instrument_property")
+    @Enumerated(EnumType.STRING)
+    private InstrumentPropertyEnum instrumentProperty;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private InstrumentTypeEnum instrumentType;
+
+    @Column(name = "instrument_model")
     private String instrumentModel;
 
-    @Column (name = "instrument_tone_stack")
-    private String instrumentToneStack;
+    @Column(name = "instrument_img")
+    private String instrumentImg;
 
-    @Column (name = "instrument_tone_stack_img")
-    private String instrumentToneStackImg;
-
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "release_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Release release;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studio_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

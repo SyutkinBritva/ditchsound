@@ -7,7 +7,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -35,25 +40,5 @@ public class Studio extends BaseEntity {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Instrument> instrumentList;
-
-    @OneToMany(mappedBy = "studio"
-            , cascade = CascadeType.ALL
-            , orphanRemoval = true)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Guitar> guitarList;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "drums_id", nullable = false)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Drums drums;
-
-    @OneToMany(mappedBy = "studio"
-            , cascade = CascadeType.ALL
-            , orphanRemoval = true)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Vocal> vocalsList;
 
 }
